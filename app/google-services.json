@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "770118784980",
+    "firebase_url": "https://blockifdrunk.firebaseio.com",
+    "project_id": "blockifdrunk",
+    "storage_bucket": "blockifdrunk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770118784980:android:a5916b61a721511a992841",
+        "android_client_info": {
+          "package_name": "com.app.blockifdrunk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770118784980-r83q7pnlq7f86iv46hddkskfnt7i2pdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.blockifdrunk",
+            "certificate_hash": "6087241edeee752189c5a6139b20aa3803b30559"
+          }
+        },
+        {
+          "client_id": "770118784980-klo10buqjbvrj2es5rbal7ageua96pe7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcbHA2kb0GyCmTRwyAu36d0tsapVjSxZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770118784980-klo10buqjbvrj2es5rbal7ageua96pe7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770118784980:android:ec83262eb3ebc09f992841",
+        "android_client_info": {
+          "package_name": "com.example.byd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770118784980-klo10buqjbvrj2es5rbal7ageua96pe7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcbHA2kb0GyCmTRwyAu36d0tsapVjSxZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770118784980-klo10buqjbvrj2es5rbal7ageua96pe7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

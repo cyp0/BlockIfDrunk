@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Principal">
+        <menu>
+            <item
+                android:id="@+id/homeItem"
+                android:icon="@drawable/ic_home_black_24dp"
+                android:title="Encender Carro">
+
+            </item>
+            <item
+                android:id="@+id/userItem"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="Mi Cuenta">
+
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="Lifeguard">
+        <menu>
+            <item
+                android:id="@+id/lifeguardItem"
+                android:icon="@drawable/ic_contacts_black_24dp"
+                android:title="Lifeguard">
+
+            </item>
+            <item
+                android:id="@+id/mensajesItem"
+                android:icon="@drawable/ic_message_black_24dp"
+                android:title="Mensajes">
+
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="Block If Drunk">
+        <menu>
+            <item
+                android:id="@+id/historialItem"
+                android:icon="@drawable/ic_history_black_24dp"
+                android:title="Historial">
+
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="Logout">
+        <menu>
+            <item
+                android:id="@+id/logoutItem"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
+                android:title="Cerrar Sesion">
+
+            </item>
+        </menu>
+    </item>
+
+
+
+
+</menu>
