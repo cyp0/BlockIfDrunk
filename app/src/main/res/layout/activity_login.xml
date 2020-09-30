@@ -39,6 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/username" />
 
+
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/loginButton"
             android:layout_width="200dp"
@@ -59,16 +60,32 @@
             android:id="@+id/signUpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/signUp"
+            android:layout_marginTop="20dp"
             android:onClick="signUp"
+            android:text="@string/signUp"
             app:bootstrapBrand="primary"
-            app:bootstrapSize="md"
+            app:bootstrapSize="lg"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginButton"
+            app:layout_constraintTop_toBottomOf="@+id/forgotPasswordButton"
             app:roundedCorners="true"
             app:showOutline="true" />
+
+        <Button
+            android:id="@+id/forgotPasswordButton"
+            android:layout_width="236dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="13dp"
+            android:background="@android:color/transparent"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textSize="12sp"
+            app:bootstrapBrand="info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
         <ImageView
             android:id="@+id/imageView"
