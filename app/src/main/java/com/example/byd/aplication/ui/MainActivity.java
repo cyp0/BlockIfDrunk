@@ -85,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
                 fragmentTransaction.commit();
                 break;
+
+            case (R.id.bluetoothItem):
+                Intent intentOpenBluetoothSettings = new Intent();
+                intentOpenBluetoothSettings.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+                startActivity(intentOpenBluetoothSettings);
+                break;
             case (R.id.logoutItem):
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
@@ -96,8 +102,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
 
-
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return super.onSupportNavigateUp();
+    }
+
+
+}
 
 

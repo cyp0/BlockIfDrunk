@@ -73,14 +73,12 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 if (!task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Error al Iniciar Sesion", Toast.LENGTH_SHORT).show();
                 }
                 if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
                     Toast.makeText(LoginActivity.this, "Correo no verificado", Toast.LENGTH_SHORT).show();
                 } else {
-
                     Intent toEngine = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(toEngine);
                 }

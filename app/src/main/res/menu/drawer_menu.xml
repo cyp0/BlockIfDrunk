@@ -47,14 +47,25 @@
         </menu>
     </item>
 
-    <item android:title="Logout">
+    <item android:title="Opciones">
         <menu>
+
+            <item
+                android:id="@+id/bluetoothItem"
+                android:icon="@drawable/ic_bluetooth_black_24dp"
+                android:title="Bluetooth">
+
+            </item>
+
             <item
                 android:id="@+id/logoutItem"
                 android:icon="@drawable/ic_power_settings_new_black_24dp"
                 android:title="Cerrar Sesion">
 
             </item>
+
+
+
         </menu>
     </item>
 
