@@ -11,38 +11,149 @@
 
 
         <EditText
-            android:id="@+id/newUsername"
+            android:id="@+id/newUserName"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:drawableStart="@drawable/ic_person_black_24dp"
-            android:drawableLeft="@drawable/ic_person_black_24dp"
-            android:ems="10"
-            android:hint="@string/user"
-            android:inputType="textPersonName"
+            android:hint="Nombre"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/newUserName"
+            app:layout_constraintEnd_toStartOf="@+id/newUserName"
+            app:layout_constraintTop_toTopOf="@+id/newUserName"
+            app:srcCompat="@drawable/ic_person_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+
+        <EditText
+            android:id="@+id/newEmail"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/user"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newUserName" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/newEmail"
+            app:layout_constraintEnd_toStartOf="@+id/newEmail"
+            app:layout_constraintTop_toTopOf="@+id/newEmail"
+            app:srcCompat="@drawable/ic_email_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Celular"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newEmail" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextPhone"
+            app:layout_constraintEnd_toStartOf="@+id/editTextPhone"
+            app:layout_constraintTop_toBottomOf="@+id/newEmail"
+            app:layout_constraintVertical_bias="0.666"
+            app:srcCompat="@drawable/ic_phone_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <EditText
+            android:id="@+id/editTextColonia"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Colonia"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextColonia"
+            app:layout_constraintEnd_toStartOf="@+id/editTextColonia"
+            app:layout_constraintTop_toTopOf="@+id/editTextColonia"
+            app:srcCompat="@drawable/ic_home_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+
+        <EditText
+            android:id="@+id/editTextCalle"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Calle y Numero"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextColonia" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextCalle"
+            app:layout_constraintEnd_toStartOf="@+id/editTextCalle"
+            app:layout_constraintTop_toBottomOf="@+id/editTextColonia"
+            app:layout_constraintVertical_bias="0.666"
+            app:srcCompat="@drawable/ic_streetview_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
         <EditText
             android:id="@+id/newPassword"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:drawableStart="@drawable/ic_vpn_key_black_24dp"
-            android:drawableLeft="@drawable/ic_vpn_key_black_24dp"
+
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newUsername" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextCalle" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/newPassword"
+            app:layout_constraintEnd_toStartOf="@+id/newPassword"
+            app:layout_constraintTop_toTopOf="@+id/newPassword"
+            app:srcCompat="@drawable/ic_vpn_key_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/signUpButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="28dp"
             android:onClick="SignUp"
             android:text="@string/registrar"
             app:bootstrapBrand="primary"
@@ -55,15 +166,28 @@
             app:roundedCorners="true" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/profilePic"
             android:layout_width="166dp"
             android:layout_height="159dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_button"
+            android:onClick="profileAvatarHandler"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_logo" />
+            app:srcCompat="@drawable/ic_person_outline_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

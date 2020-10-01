@@ -1,40 +1,83 @@
 package com.example.byd.aplication;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.byd.R;
 import com.example.byd.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText usernameEditText;
+    private Uri imageUri;
+    private ImageView profilePic;
+    private EditText userEditText;
+    private EditText emailEditText;
     private EditText passwordEditText;
+    private EditText phoneEditText;
+    private EditText coloniaEditText;
+    private EditText calleYNumeroEditText;
+
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+
+    //Database
+    DatabaseReference databaseReference;
+    //Firebase storage
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         ActivitySignUpBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
 
-        usernameEditText = binding.newUsername;
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        userEditText = binding.newUserName;
+        emailEditText = binding.newEmail;
         passwordEditText = binding.newPassword;
+        profilePic = binding.profilePic;
+        phoneEditText = binding.editTextPhone;
+        coloniaEditText = binding.editTextColonia;
+        calleYNumeroEditText = binding.editTextColonia;
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -67,8 +110,20 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void SignUp(View view) {
-        String username = usernameEditText.getText().toString().trim();
+        final String username = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
+        final String nombre = userEditText.getText().toString().trim();
+        ;
+        final String celular = phoneEditText.getText().toString().trim();
+        ;
+        final String colonia = coloniaEditText.getText().toString().trim();
+        ;
+        final String calleYNumero = calleYNumeroEditText.getText().toString().trim();
+        ;
+
+        if (nombre.isEmpty() && celular.isEmpty() && colonia.isEmpty() && calleYNumero.isEmpty()) {
+            Toast.makeText(this, "Llena los campos vacios", Toast.LENGTH_SHORT).show();
+        }
 
         firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -76,8 +131,17 @@ public class SignUpActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) {
                     Toast.makeText(SignUpActivity.this, "Error al Registrar", Toast.LENGTH_SHORT).show();
                 } else {
+                    Map<String, Object> value = new HashMap<>();
+                    value.put("nombre", nombre);
+                    value.put("correo", username);
+                    value.put("celular", celular);
+                    value.put("colonia", colonia);
+                    value.put("calleYNumero", calleYNumero);
                     FirebaseUser user = firebaseAuth.getCurrentUser();
+                    String id = firebaseAuth.getCurrentUser().getUid();
 
+                    databaseReference.child("Users").child(id).setValue(value);
+                    assert user != null;
                     user.sendEmailVerification();
                     Toast.makeText(SignUpActivity.this, "Verifica tu Cuenta", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
@@ -85,7 +149,47 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
+    public void profileAvatarHandler(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            profilePic.setImageURI(imageUri);
+            uploadPicture();
+        }
+    }
+
+    private void uploadPicture() {
+
+
+        final String randomKey = UUID.randomUUID().toString();
+        StorageReference riversRef = storageReference.child("image/" + randomKey);
+
+
+        riversRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(SignUpActivity.this, "Imagen subida", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(SignUpActivity.this, "Fallo al subir", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }
 

@@ -27,12 +27,7 @@
                 android:title="Lifeguard">
 
             </item>
-            <item
-                android:id="@+id/mensajesItem"
-                android:icon="@drawable/ic_message_black_24dp"
-                android:title="Mensajes">
 
-            </item>
         </menu>
     </item>
 

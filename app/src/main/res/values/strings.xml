@@ -2,7 +2,7 @@
     <string name="app_name">BlockIfDrunk</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="user">Username</string>
+    <string name="user">Correo</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar Sesion</string>
     <string name="signUp">Registrarse</string>

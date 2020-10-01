@@ -77,10 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.containerOfFragments, new LifeguardFragment());
                 fragmentTransaction.commit();
                 break;
-            case (R.id.mensajesItem):
-                fragmentTransaction.replace(R.id.containerOfFragments, new ChatFragment());
-                fragmentTransaction.commit();
-                break;
             case (R.id.historialItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
                 fragmentTransaction.commit();
