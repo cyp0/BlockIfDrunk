@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText phoneEditText;
     private EditText coloniaEditText;
     private EditText calleYNumeroEditText;
-
+    private EditText confirmPasswordEditText;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -76,8 +78,8 @@ public class SignUpActivity extends AppCompatActivity {
         profilePic = binding.profilePic;
         phoneEditText = binding.editTextPhone;
         coloniaEditText = binding.editTextColonia;
-        calleYNumeroEditText = binding.editTextColonia;
-
+        calleYNumeroEditText = binding.editTextCalle;
+        confirmPasswordEditText = binding.passwordEdidText;
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -113,18 +115,30 @@ public class SignUpActivity extends AppCompatActivity {
         final String username = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
         final String nombre = userEditText.getText().toString().trim();
-        ;
+
         final String celular = phoneEditText.getText().toString().trim();
-        ;
+
         final String colonia = coloniaEditText.getText().toString().trim();
-        ;
+
         final String calleYNumero = calleYNumeroEditText.getText().toString().trim();
-        ;
+
+        final String confirmPassword = confirmPasswordEditText.getText().toString();
 
         if (nombre.isEmpty() && celular.isEmpty() && colonia.isEmpty() && calleYNumero.isEmpty()) {
-            Toast.makeText(this, "Llena los campos vacios", Toast.LENGTH_SHORT).show();
-        }
+            createSnackbar(R.string.emptyFields);
+        } else if (!password.equals(confirmPassword)) {
+            createSnackbar(R.string.confirmPassword);
 
+        } else {
+
+            createUser(username, password, nombre, celular, colonia, calleYNumero);
+
+        }
+    }
+
+
+
+    private void createUser(final String username, String password, final String nombre, final String celular, final String colonia, final String calleYNumero) {
         firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -142,14 +156,23 @@ public class SignUpActivity extends AppCompatActivity {
 
                     databaseReference.child("Users").child(id).setValue(value);
                     assert user != null;
+
+                    Snackbar.make(findViewById(R.id.signUpLayout), R.string.confirmEmail, Snackbar.LENGTH_SHORT)
+                            .addCallback(new Snackbar.Callback(){
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    super.onDismissed(transientBottomBar, event);
+                                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }).show();
+
                     user.sendEmailVerification();
-                    Toast.makeText(SignUpActivity.this, "Verifica tu Cuenta", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(intent);
                 }
             }
         });
-
     }
 
     public void profileAvatarHandler(View view) {
@@ -164,17 +187,40 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            profilePic.setImageURI(imageUri);
-            uploadPicture();
+            Bitmap bitmap = ((Bitmap) data.getExtras().get("data"));
+            profilePic.setImageBitmap(bitmap);
+            handleUpload(bitmap);
+//            imageUri = data.getData();
+//            profilePic.setImageURI(imageUri);
+//            uploadPicture();
+
         }
     }
 
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        storageReference.child("profileImages").child(firebaseAuth.getCurrentUser().getUid() + ".jpeg");
+
+        storageReference.putBytes(baos.toByteArray())
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(SignUpActivity.this, "Imagen Subida", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void uploadPicture() {
-
-
         final String randomKey = UUID.randomUUID().toString();
-        StorageReference riversRef = storageReference.child("image/" + randomKey);
+        StorageReference riversRef = storageReference.child("images/" + randomKey);
 
 
         riversRef.putFile(imageUri)
@@ -190,6 +236,12 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "Fallo al subir", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void createSnackbar(int title) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.signUpLayout), title, Snackbar.LENGTH_LONG);
+        snackbar.show();
+
     }
 }
 
