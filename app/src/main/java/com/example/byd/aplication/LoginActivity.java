@@ -3,6 +3,8 @@ package com.example.byd.aplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -105,7 +107,14 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     @Override
     public void onBackPressed() {
+
+    }
+
+
+    public void toReset(View view) {
+        startActivity(new Intent(this, ResetActivity.class));
     }
 }
