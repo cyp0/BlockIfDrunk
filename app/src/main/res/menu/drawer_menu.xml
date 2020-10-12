@@ -34,6 +34,13 @@
     <item android:title="Block If Drunk">
         <menu>
             <item
+                android:id="@+id/phoneItem"
+                android:icon="@drawable/ic_phone_black_24dp"
+                android:title="Telefono">
+
+            </item>
+
+            <item
                 android:id="@+id/historialItem"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="Historial">

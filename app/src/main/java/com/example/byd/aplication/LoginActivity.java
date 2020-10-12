@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString();
 
         if(username.isEmpty() || password.isEmpty()){
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), "Contraseña incorrecta", Snackbar.LENGTH_LONG );
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), "Contraseña Vacia", Snackbar.LENGTH_LONG );
             snackbar.show();
 //            View snackbarView= snackbar.getView();
 //            TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -89,11 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Error al Iniciar Sesion", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
                     }
-                    if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
+                   else if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
                         Toast.makeText(LoginActivity.this, "Correo no verificado", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }
+                    else if(task.isSuccessful()) {
                         Intent toEngine = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(toEngine);
                     }

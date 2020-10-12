@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.byd.R;
@@ -22,6 +23,7 @@ import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.user.UserFragment;
 import com.example.byd.aplication.ui.lifeguardUI.lifeguard.LifeguardFragment;
 import com.example.byd.aplication.ui.lifeguardUI.message.ChatFragment;
+import com.example.byd.aplication.ui.phone.PhoneFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -75,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case (R.id.lifeguardItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new LifeguardFragment());
+                fragmentTransaction.commit();
+                break;
+            case (R.id.phoneItem):
+                fragmentTransaction.replace(R.id.containerOfFragments, new PhoneFragment());
                 fragmentTransaction.commit();
                 break;
             case (R.id.historialItem):
