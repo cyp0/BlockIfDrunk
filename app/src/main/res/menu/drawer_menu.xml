@@ -41,6 +41,12 @@
             </item>
 
             <item
+                android:id="@+id/contactItem"
+                android:icon="@drawable/ic_contacts_black_24dp"
+                android:title="Blocks">
+            </item>
+
+            <item
                 android:id="@+id/historialItem"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="Historial">

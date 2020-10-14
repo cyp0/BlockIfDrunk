@@ -8,22 +8,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.byd.R;
 import com.example.byd.aplication.LoginActivity;
+import com.example.byd.aplication.ui.blockifdrunkUI.block.ContactsFragment;
 import com.example.byd.aplication.ui.blockifdrunkUI.history.HistoryFragment;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.user.UserFragment;
 import com.example.byd.aplication.ui.lifeguardUI.lifeguard.LifeguardFragment;
-import com.example.byd.aplication.ui.lifeguardUI.message.ChatFragment;
-import com.example.byd.aplication.ui.phone.PhoneFragment;
+import com.example.byd.aplication.ui.blockifdrunkUI.phone.PhoneFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -85,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case (R.id.historialItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
+                fragmentTransaction.commit();
+                break;
+            case (R.id.contactItem):
+                fragmentTransaction.replace(R.id.containerOfFragments, new ContactsFragment());
                 fragmentTransaction.commit();
                 break;
 
