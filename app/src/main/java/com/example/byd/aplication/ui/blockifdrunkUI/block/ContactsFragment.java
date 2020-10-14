@@ -45,12 +45,12 @@ public class ContactsFragment extends Fragment {
         FragmentContactsBinding binding = FragmentContactsBinding.inflate(inflater, container, false);
         listView = binding.listViewBlockedContacts;
         listView.setDivider(null);
-        listView.setDividerHeight(0);
+        listView.setDividerHeight(30);
         final ArrayList<Contact> contactArrayList = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();
         String id = firebaseAuth.getCurrentUser().getUid();
-        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, contactArrayList);
+        final ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.custom_layout, contactArrayList);
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("blocks").child("contacts");

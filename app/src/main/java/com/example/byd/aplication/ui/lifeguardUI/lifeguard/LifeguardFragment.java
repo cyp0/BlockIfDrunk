@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.byd.R;
 import com.example.byd.aplication.models.BlockedContact;
 import com.example.byd.aplication.models.Contact;
+import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.startEngine.devicesList.DevicesFragment;
 import com.example.byd.aplication.ui.lifeguardUI.addContact.AddContactFragment;
 import com.example.byd.databinding.LifeguardFragmentBinding;
@@ -126,8 +127,9 @@ public class LifeguardFragment extends Fragment {
                 Map<String, Object> value = new HashMap<>();
                 value.put("blocks" , new BlockedContact(date , contacts));
                 databaseReference.child("Users").child(id).child("lifeguard").setValue(value);
-                Snackbar.make(v, "YEAH" , Snackbar.LENGTH_SHORT).show();
-
+                Snackbar.make(v, "Contactos bloqueados" , Snackbar.LENGTH_SHORT).show();
+                fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
+                fragmentTransaction.commit();
             }
         });
 
