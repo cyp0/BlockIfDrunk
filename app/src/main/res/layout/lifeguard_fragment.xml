@@ -57,22 +57,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView4" />
         <!-->
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="300dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="88dp"
-            android:text="Duracion de bloqueo                   12 Horas"
-            android:textSize="18sp"
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="96dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.673"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:np_dividerColor="@android:color/darker_gray"
+            app:np_dividerDistance="50dp"
+
+            app:np_orientation="horizontal"
+            app:np_selectedTextColor="@android:color/black"
+            app:np_textColor="@android:color/black" />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/confirm_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="104dp"
             android:text="Confirmar"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
@@ -97,12 +102,30 @@
 
         <ListView
             android:id="@+id/contact_list"
-            android:layout_width="300dp"
-            android:layout_height="380dp"
-            android:layout_marginTop="17dp"
+            android:layout_width="294dp"
+            android:layout_height="313dp"
+            android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.363"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toBottomOf="@+id/numberPicker">
+
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Horas:"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
+            app:layout_constraintEnd_toStartOf="@+id/numberPicker"
+            app:layout_constraintTop_toTopOf="@+id/numberPicker"
+            app:layout_constraintVertical_bias="0.466" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

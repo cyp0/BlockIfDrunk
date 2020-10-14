@@ -1,5 +1,6 @@
 package com.example.byd.aplication.ui.lifeguardUI.lifeguard;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class LifeguardFragment extends Fragment {
 
 
     private ListView contactList;
+    private NumberPicker numberPicker;
     private ArrayList<Contact> contacts;
     private Contact contact;
 
@@ -64,6 +67,7 @@ public class LifeguardFragment extends Fragment {
         this.contacts = contacts;
     }
 
+    @SuppressLint("WrongConstant")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +79,12 @@ public class LifeguardFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        //Number Picker
+        numberPicker = binding.numberPicker;
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(24);
+        numberPicker.setOrientation(NumberPicker.HORIZONTAL);
+        
         contactList = binding.contactList;
         contactList.setDivider(null);
         contactList.setDividerHeight(0);
