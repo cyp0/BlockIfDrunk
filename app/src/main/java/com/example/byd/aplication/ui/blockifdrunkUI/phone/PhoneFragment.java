@@ -30,7 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -91,11 +95,11 @@ public class PhoneFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Boolean isBlocked = false;
-                    String dateOfBlock;
+                    String stringDateOfBlock = "";
                     for (DataSnapshot contactSnapshot : snapshot.getChildren()) {
 
                         if (contactSnapshot.getValue().getClass().equals(String.class)) {
-                            dateOfBlock = contactSnapshot.getValue().toString();
+                            stringDateOfBlock = contactSnapshot.getValue().toString();
                         } else if(contactSnapshot.getValue().getClass().equals(ArrayList.class)){
                             GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {};
                             ArrayList<Contact> arrayList = contactSnapshot.getValue(t);
@@ -109,10 +113,28 @@ public class PhoneFragment extends Fragment {
                     }
 
                     //Calculos para determinar si la hora no ha pasado
-                    
+
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+                    Date dateOfBlock = null;
+                    Date dateNow = null;
+                    String now = dateFormat.format(new Date());
+
+                    try {
+                         dateOfBlock = dateFormat.parse(stringDateOfBlock);
+                        dateNow = dateFormat.parse(now);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Boolean unblock = false;
+                    if(dateNow.compareTo(dateOfBlock) < 0){
+                        unblock = false;
+                    }else if(dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0){
+                        unblock = true;
+                    }
+
 
                     //Si esta bloqueado y si la fecha de bloqueo no ha pasado
-                    if(isBlocked){
+                    if(isBlocked&&!unblock){
                         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }else{
