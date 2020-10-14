@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.byd.R;
 import com.example.byd.aplication.LoginActivity;
@@ -22,6 +23,7 @@ import com.example.byd.aplication.ui.lifeguardUI.lifeguard.LifeguardFragment;
 import com.example.byd.aplication.ui.blockifdrunkUI.phone.PhoneFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -29,17 +31,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
 
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseAuth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView textViewName = navigationView.getHeaderView(0).findViewById(R.id.textView3);
+        textViewName.setText(firebaseAuth.getCurrentUser().getDisplayName());
+
+        TextView textViewEmail = navigationView.getHeaderView(0).findViewById(R.id.textViewPhone);
+        textViewEmail.setText(firebaseAuth.getCurrentUser().getEmail());
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.open, R.string.close);
 

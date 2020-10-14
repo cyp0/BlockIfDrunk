@@ -53,7 +53,7 @@ public class ContactsFragment extends Fragment {
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, contactArrayList);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("Contacts");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("blocks").child("contacts");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

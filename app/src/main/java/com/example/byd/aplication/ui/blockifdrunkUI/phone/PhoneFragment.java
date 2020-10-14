@@ -27,9 +27,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +83,7 @@ public class PhoneFragment extends Fragment {
             final ArrayList<Contact> contacts = new ArrayList<>();
 
             String id = firebaseAuth.getCurrentUser().getUid();
-            databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("Contacts");
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("blocks");
 
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -89,14 +91,27 @@ public class PhoneFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Boolean isBlocked = false;
+                    String dateOfBlock;
                     for (DataSnapshot contactSnapshot : snapshot.getChildren()) {
-                        Contact contact = contactSnapshot.getValue(Contact.class);
-//                        contacts.add(contact);
-                        if(contact.getPhoneNumber().equals(number)){
-                            isBlocked = true;
+
+                        if (contactSnapshot.getValue().getClass().equals(String.class)) {
+                            dateOfBlock = contactSnapshot.getValue().toString();
+                        } else if(contactSnapshot.getValue().getClass().equals(ArrayList.class)){
+                            GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {};
+                            ArrayList<Contact> arrayList = contactSnapshot.getValue(t);
+                            for(Contact contact: arrayList){
+                                if (contact.getPhoneNumber().equals(number)) {
+                                    isBlocked = true;
+                                }
+                            }
                         }
+
                     }
 
+                    //Calculos para determinar si la hora no ha pasado
+                    
+
+                    //Si esta bloqueado y si la fecha de bloqueo no ha pasado
                     if(isBlocked){
                         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
                         snackbar.show();
@@ -113,25 +128,6 @@ public class PhoneFragment extends Fragment {
                 }
             });
 
-//            boolean duplicated = false;
-//            System.out.println("******************************************************************************************");
-//            System.out.println(contacts.size());
-//            for(int i = 0; i < contacts.size() ; i++ ){
-//                if(number.equals(contacts.get(i).getPhoneNumber())){
-//                    duplicated = true;
-//                    System.out.println(number);
-//                    System.out.println(contacts.get(i).getPhoneNumber());
-//                }
-//            }
-//            System.out.println(duplicated);
-//
-//            if (duplicated) {
-//                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
-//                snackbar.show();
-//            } else {
-//                String dial = "tel:" + number;
-//                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
-//            }
         } else {
             Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Introduce un numero", Snackbar.LENGTH_LONG);
             snackbar.show();

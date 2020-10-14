@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.byd.R;
+import com.example.byd.aplication.models.BlockedContact;
 import com.example.byd.aplication.models.Contact;
 import com.example.byd.aplication.ui.home.startEngine.devicesList.DevicesFragment;
 import com.example.byd.aplication.ui.lifeguardUI.addContact.AddContactFragment;
@@ -28,7 +29,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.shawnlin.numberpicker.NumberPicker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,10 +89,10 @@ public class LifeguardFragment extends Fragment {
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(24);
         numberPicker.setOrientation(NumberPicker.HORIZONTAL);
-        
+
         contactList = binding.contactList;
         contactList.setDivider(null);
-        contactList.setDividerHeight(0);
+        contactList.setDividerHeight(30);
         if(contacts == null) {
             contacts = new ArrayList<>();
         }
@@ -109,17 +114,24 @@ public class LifeguardFragment extends Fragment {
         binding.confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                //Esta en GMT
+                cal.add(Calendar.HOUR_OF_DAY, numberPicker.getValue());
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+                String date = dateFormat.format(cal.getTime());
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 String id = firebaseAuth.getCurrentUser().getUid();
                 Map<String, Object> value = new HashMap<>();
-                value.put("Contacts" , contacts);
+                value.put("blocks" , new BlockedContact(date , contacts));
                 databaseReference.child("Users").child(id).child("lifeguard").setValue(value);
                 Snackbar.make(v, "YEAH" , Snackbar.LENGTH_SHORT).show();
 
             }
         });
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, contacts);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.custom_layout, contacts);
         contactList.setAdapter(adapter);
         return binding.getRoot();
     }
