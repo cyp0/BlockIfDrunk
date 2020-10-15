@@ -44,8 +44,7 @@ public class ContactsFragment extends Fragment {
         // Inflate the layout for this fragment
         FragmentContactsBinding binding = FragmentContactsBinding.inflate(inflater, container, false);
         listView = binding.listViewBlockedContacts;
-        listView.setDivider(null);
-        listView.setDividerHeight(30);
+
         final ArrayList<Contact> contactArrayList = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();

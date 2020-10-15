@@ -87,13 +87,8 @@ public class LifeguardFragment extends Fragment {
 
         //Number Picker
         numberPicker = binding.numberPicker;
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(24);
-        numberPicker.setOrientation(NumberPicker.HORIZONTAL);
 
         contactList = binding.contactList;
-        contactList.setDivider(null);
-        contactList.setDividerHeight(30);
         if(contacts == null) {
             contacts = new ArrayList<>();
         }
