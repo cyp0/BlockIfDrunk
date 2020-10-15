@@ -4,54 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".aplication.ui.home.startEngine.control.ControlFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButtonForward"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="88dp"
             android:background="@drawable/ic_arrow_upward_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonStop"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonTurnRight"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonTurnLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButtonTurnLeft"
             android:layout_width="150dp"
             android:layout_height="150dp"
 
 
             android:background="@drawable/ic_arrow_back_black_24dp"
             android:scaleType="centerInside"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonBackward"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonStop"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/imageButtonStop" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/imageButtonTurnRight"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/ic_arrow_forward_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageButtonBackward"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonStop"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonStop"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/imageButtonBackward"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginBottom="96dp"
             android:background="@drawable/ic_arrow_downward_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButtonTurnRight"
+            app:layout_constraintStart_toEndOf="@+id/imageButtonTurnLeft"
+            app:layout_constraintTop_toBottomOf="@+id/imageButtonStop"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/imageButtonStop"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/ic_stop_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/button_disconnect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desconectar"
+            app:bootstrapBrand="warning"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
