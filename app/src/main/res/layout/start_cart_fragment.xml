@@ -15,7 +15,7 @@
         android:layout_width="149dp"
         android:layout_height="154dp"
         android:background="@drawable/round_button"
-        android:text="Encender"
+        android:text="@string/encender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

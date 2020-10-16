@@ -82,7 +82,7 @@
             android:layout_height="24dp"
             android:layout_marginTop="13dp"
             android:background="@android:color/transparent"
-            android:text="¿Olvidaste tu contraseña?"
+            android:text="@string/olvidaste_tu_contrase_a"
             android:onClick="toReset"
             android:textSize="12sp"
             app:bootstrapBrand="info"

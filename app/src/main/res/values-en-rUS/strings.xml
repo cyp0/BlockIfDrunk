@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BlockIfDrunk</string>
+    <string name="user">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signUp">Signup</string>
+    <string name="registrar">Signup</string>
+    <string name="emptyFields">Fill empty fields</string>
+    <string name="confirmPassword">Wrong Password</string>
+    <string name="confirmEmail">Email sent, verify your account</string>
+    <string name="olvidaste_tu_contrase_a">Forgot your password?</string>
+    <string name="confirmar">Confirm</string>
+    <string name="nombre">Name</string>
+    <string name="celular">Cellphone</string>
+    <string name="colonia">Address 1</string>
+    <string name="calle_y_numero">Address 2</string>
+    <string name="confirmar_contrase_a">Confirm Password</string>
+    <string name="agregar">Add</string>
+    <string name="contactos_bloqueados">Blocked contacts</string>
+    <string name="desconectar">Disconnect</string>
+    <string name="dispositivos_encontrados">Paired Devices</string>
+    <string name="telefono">Phone</string>
+    <string name="horas_a_bloquear">Hours to block:</string>
+    <string name="encender">Turn on</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="encender_carro">Car</string>
+    <string name="mi_cuenta">My Account</string>
+    <string name="historial">History</string>
+    <string name="cerrar_sesion">Logout</string>
+</resources>

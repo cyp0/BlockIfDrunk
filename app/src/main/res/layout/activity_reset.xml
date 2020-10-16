@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:onClick="resetPassword"
-            android:text="Confirmar"
+            android:text="@string/confirmar"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
             app:buttonMode="regular"

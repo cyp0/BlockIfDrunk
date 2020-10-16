@@ -11,6 +11,22 @@
     <string name="confirmPassword">Contraseña incorrecta, vuelva a intentar</string>
     <string name="confirmEmail">Email enviado a su correo, verifique su cuenta por favor.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="nombre">Nombre</string>
+    <string name="celular">Celular</string>
+    <string name="colonia">Colonia</string>
+    <string name="calle_y_numero">Calle y Numero</string>
+    <string name="confirmar_contrase_a">Confirmar Contraseña</string>
+    <string name="agregar">Agregar</string>
+    <string name="contactos_bloqueados">Contactos Bloqueados</string>
+    <string name="desconectar">Desconectar</string>
+    <string name="dispositivos_encontrados">Dispositivos Encontrados</string>
+    <string name="telefono">Telefono</string>
+    <string name="horas_a_bloquear">Horas a bloquear:</string>
+    <string name="encender">Encender</string>
+    <string name="encender_carro">Encender Carro</string>
+    <string name="mi_cuenta">Mi Cuenta</string>
+    <string name="historial">Historial</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
 </resources>

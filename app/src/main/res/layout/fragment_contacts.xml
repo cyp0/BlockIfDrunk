@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="72dp"
-            android:text="Contactos Bloqueados"
+            android:text="@string/contactos_bloqueados"
             android:textAllCaps="true"
             android:textColor="@android:color/black"
             android:textSize="18dp"
