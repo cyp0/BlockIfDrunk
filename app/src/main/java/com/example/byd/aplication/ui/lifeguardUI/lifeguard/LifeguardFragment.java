@@ -188,6 +188,7 @@ public class LifeguardFragment extends Fragment {
         //Service
         //Add if, if a service already exists
         Intent intent = new Intent(getActivity(), BackgroundService.class);
+        getActivity().stopService(intent);
         getActivity().startService(intent);
         //Firebase
         Map<String, Object> value = new HashMap<>();
