@@ -108,12 +108,16 @@ public class DevicesFragment extends Fragment {
             // Obtener la dirección MAC del dispositivo, que son los últimos 17 caracteres en la vista
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
-
+            System.out.println(address);
 
             // Realiza un intent para iniciar la siguiente actividad
             // mientras toma un EXTRA_DEVICE_ADDRESS que es la dirección MAC.
-            fragmentTransaction.replace(R.id.containerOfFragments, new ControlFragment(address), "devices").addToBackStack("devices");
-            fragmentTransaction.commit();
+            if(address.equals("45:54:14:04:7B:07")) {
+                fragmentTransaction.replace(R.id.containerOfFragments, new ControlFragment(address), "devices").addToBackStack("devices");
+                fragmentTransaction.commit();
+            }else {
+                Snackbar.make(getView(), "No elegiste el carro", Snackbar.LENGTH_SHORT).show();
+            }
         }
     };
 
