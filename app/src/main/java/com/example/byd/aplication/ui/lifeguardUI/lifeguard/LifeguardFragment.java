@@ -1,15 +1,25 @@
 package com.example.byd.aplication.ui.lifeguardUI.lifeguard;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,6 +27,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.byd.R;
 import com.example.byd.aplication.models.BlockedContact;
 import com.example.byd.aplication.models.Contact;
+import com.example.byd.aplication.service.BackgroundService;
+import com.example.byd.aplication.service.Utils;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.startEngine.devicesList.DevicesFragment;
 import com.example.byd.aplication.ui.lifeguardUI.addContact.AddContactFragment;
@@ -41,7 +53,10 @@ import java.util.Map;
 
 public class LifeguardFragment extends Fragment {
 
+    private static final int REQUEST_PACKAGE_USAGE_STATS = 2;
+    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE= 3;
 
+    private View view;
     private ListView contactList;
     private NumberPicker numberPicker;
     private ArrayList<Contact> contacts;
@@ -78,7 +93,7 @@ public class LifeguardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LifeguardFragmentBinding binding = LifeguardFragmentBinding.inflate(inflater, container, false);
-
+        view = inflater.inflate(R.layout.lifeguard_fragment, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -89,11 +104,11 @@ public class LifeguardFragment extends Fragment {
         numberPicker = binding.numberPicker;
 
         contactList = binding.contactList;
-        if(contacts == null) {
+        if (contacts == null) {
             contacts = new ArrayList<>();
         }
 
-        if(contact != null){
+        if (contact != null) {
             contacts.add(contact);
         }
 
@@ -110,21 +125,36 @@ public class LifeguardFragment extends Fragment {
         binding.confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Setting permissions
+                if (Utils.checkPermission(getActivity())) {
 
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date());
-                //Esta en GMT
-                cal.add(Calendar.HOUR_OF_DAY, numberPicker.getValue());
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-                String date = dateFormat.format(cal.getTime());
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                String id = firebaseAuth.getCurrentUser().getUid();
-                Map<String, Object> value = new HashMap<>();
-                value.put("blocks" , new BlockedContact(date , contacts));
-                databaseReference.child("Users").child(id).child("lifeguard").setValue(value);
-                Snackbar.make(v, "Contactos bloqueados" , Snackbar.LENGTH_SHORT).show();
-                fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
-                fragmentTransaction.commit();
+                    //Agregar if de permiso de overlay extra
+                    //If user has Android 10 or superior
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        if (!Settings.canDrawOverlays(getActivity())) {
+                            Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    requestOverlayPermission();
+                                }
+                            }, 2500);
+                        } else {
+                           addToFirebase();
+                        }
+                    }else {
+                       addToFirebase();
+                    }
+                } else {
+                    Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            requestUsageAccessPermission();
+                        }
+                    }, 2500);
+
+                }
             }
         });
 
@@ -133,5 +163,38 @@ public class LifeguardFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void requestUsageAccessPermission() {
 
+//        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.parse("package:" +
+//                this.getActivity().getPackageName()));
+//        startActivityForResult(intent, REQUEST_PACKAGE_USAGE_STATS);
+        startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+
+    }
+
+    private void requestOverlayPermission() {
+        startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION));
+    }
+
+    private void addToFirebase(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        //Esta en GMT
+        cal.add(Calendar.HOUR_OF_DAY, numberPicker.getValue());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+        String date = dateFormat.format(cal.getTime());
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String id = firebaseAuth.getCurrentUser().getUid();
+        //Service
+        //Add if, if a service already exists
+        Intent intent = new Intent(getActivity(), BackgroundService.class);
+        getActivity().startService(intent);
+        //Firebase
+        Map<String, Object> value = new HashMap<>();
+        value.put("blocks", new BlockedContact(date, contacts));
+        databaseReference.child("Users").child(id).child("lifeguard").setValue(value);
+        Snackbar.make(getView(), "Contactos bloqueados", Snackbar.LENGTH_SHORT).show();
+        fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
+        fragmentTransaction.commit();
+    }
 }

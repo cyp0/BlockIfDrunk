@@ -75,7 +75,6 @@ public class PhoneFragment extends Fragment {
     }
 
     private void makePhoneCall() {
-        //Talvez sea necesario agregar un trim al final
         final String number = editTextNumber.getText().toString().trim();
 
 

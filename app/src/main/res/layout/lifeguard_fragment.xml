@@ -127,8 +127,8 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
-            app:layout_constraintEnd_toEndOf="@+id/numberPicker"
-            app:layout_constraintHorizontal_bias="0.122"
+            app:layout_constraintEnd_toStartOf="@+id/numberPicker"
+            app:layout_constraintHorizontal_bias="0.888"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/numberPicker" />
 
@@ -144,6 +144,8 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/numberPicker" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

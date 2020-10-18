@@ -27,7 +27,14 @@
                 android:title="Lifeguard">
 
             </item>
+            <!--
+            <item
+                android:id="@+id/appLockerItem"
+                android:icon="@drawable/ic_contacts_black_24dp"
+                android:title="App Locker">
 
+            </item>
+            !-->
         </menu>
     </item>
 
