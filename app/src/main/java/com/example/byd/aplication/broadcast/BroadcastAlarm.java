@@ -7,9 +7,14 @@ import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -44,10 +49,30 @@ public class BroadcastAlarm extends BroadcastReceiver {
                 topPackageName =  runningTask.get(runningTask.lastKey()).getPackageName();
             }
         }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+
+        Bundle extras = intent.getExtras();
+        String dateBlock = (String) extras.get("Date");
+        Date dateOfBlock = null;
+        Date dateNow = null;
+        String now = dateFormat.format(new Date());
+
+        try {
+            dateOfBlock = dateFormat.parse(dateBlock);
+            dateNow = dateFormat.parse(now);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        boolean hasDatePassed = false;
+        if (dateNow.compareTo(dateOfBlock) < 0) {
+            hasDatePassed = false;
+        } else if (dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0) {
+            hasDatePassed = true;
+        }
 
 
 
-        if(topPackageName.equals("com.android.contacts")){
+        if(topPackageName.equals("com.android.contacts") && !hasDatePassed){
             Intent startHomescreen = new Intent(Intent.ACTION_MAIN);
             startHomescreen.addCategory(Intent.CATEGORY_HOME);
             startHomescreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -58,7 +83,7 @@ public class BroadcastAlarm extends BroadcastReceiver {
 //        Intent intent1 = new Intent(context, BackgroundService.class);
 //        context.startService(intent1);
 
-        System.out.println(topPackageName);
+//        System.out.println(topPackageName);
         Log.e("Task List", "Current App in foreground is: " + topPackageName);
     }
 

@@ -180,15 +180,16 @@ public class LifeguardFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         //Esta en GMT
-        cal.add(Calendar.HOUR_OF_DAY, numberPicker.getValue());
+        cal.add(Calendar.MINUTE, numberPicker.getValue());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         String date = dateFormat.format(cal.getTime());
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String id = firebaseAuth.getCurrentUser().getUid();
         //Service
         //Add if, if a service already exists
-        Intent intent = new Intent(getActivity(), BackgroundService.class);
+        Intent intent = new Intent(getActivity(),BackgroundService.class);
         getActivity().stopService(intent);
+        intent.putExtra("Date" , date);
         getActivity().startService(intent);
         //Firebase
         Map<String, Object> value = new HashMap<>();

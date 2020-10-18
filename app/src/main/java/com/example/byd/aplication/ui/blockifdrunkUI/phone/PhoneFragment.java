@@ -1,6 +1,8 @@
 package com.example.byd.aplication.ui.blockifdrunkUI.phone;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.byd.R;
 import com.example.byd.aplication.models.Contact;
+import com.example.byd.aplication.service.BackgroundService;
 import com.example.byd.databinding.FragmentPhoneBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,10 +102,11 @@ public class PhoneFragment extends Fragment {
 
                         if (contactSnapshot.getValue().getClass().equals(String.class)) {
                             stringDateOfBlock = contactSnapshot.getValue().toString();
-                        } else if(contactSnapshot.getValue().getClass().equals(ArrayList.class)){
-                            GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {};
+                        } else if (contactSnapshot.getValue().getClass().equals(ArrayList.class)) {
+                            GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {
+                            };
                             ArrayList<Contact> arrayList = contactSnapshot.getValue(t);
-                            for(Contact contact: arrayList){
+                            for (Contact contact : arrayList) {
                                 if (contact.getPhoneNumber().equals(number)) {
                                     isBlocked = true;
                                 }
@@ -119,24 +123,29 @@ public class PhoneFragment extends Fragment {
                     String now = dateFormat.format(new Date());
 
                     try {
-                         dateOfBlock = dateFormat.parse(stringDateOfBlock);
+                        dateOfBlock = dateFormat.parse(stringDateOfBlock);
                         dateNow = dateFormat.parse(now);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    Boolean unblock = false;
-                    if(dateNow.compareTo(dateOfBlock) < 0){
-                        unblock = false;
-                    }else if(dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0){
-                        unblock = true;
+                    Boolean hasDatePassed = false;
+                    if (dateNow.compareTo(dateOfBlock) < 0) {
+                        hasDatePassed = false;
+                    } else if (dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0) {
+                        hasDatePassed = true;
                     }
 
 
                     //Si esta bloqueado y si la fecha de bloqueo no ha pasado
-                    if(isBlocked&&!unblock){
+                    if (isBlocked &&!hasDatePassed) {
                         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    }else{
+                    } else {
+//                        ActivityManager am = (ActivityManager) getActivity().getSystemService(
+//                                Context.ACTIVITY_SERVICE);
+//                        am.killBackgroundProcesses(getActivity().getPackageName());
+                        getActivity().stopService(new Intent(getActivity(), BackgroundService.class));
+
                         String dial = "tel:" + number;
                         startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
                     }
