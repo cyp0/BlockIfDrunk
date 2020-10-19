@@ -146,7 +146,7 @@ public class LifeguardFragment extends Fragment {
                        addToFirebase();
                     }
                 } else {
-                    Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(getView() , "Necesitas un permiso extra por la version de Android de tu telefono" , Snackbar.LENGTH_LONG).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
