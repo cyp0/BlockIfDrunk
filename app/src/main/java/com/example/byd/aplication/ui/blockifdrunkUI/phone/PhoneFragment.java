@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class PhoneFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     private String phone;
-
+    private InputMethodManager inputMethodManager;
     public PhoneFragment() {
     }
 
@@ -70,6 +71,9 @@ public class PhoneFragment extends Fragment {
 
 
         editTextNumber = fragmentPhoneBinding.editTextNumber;
+        editTextNumber.requestFocus();
+        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         if(phone != null){
             phone = phone.replaceAll("\\s+", "");
             editTextNumber.setText(phone.trim());
@@ -86,7 +90,10 @@ public class PhoneFragment extends Fragment {
 
     }
 
+
     private void makePhoneCall() {
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0 );
+
         final String number = editTextNumber.getText().toString().trim();
 
 
