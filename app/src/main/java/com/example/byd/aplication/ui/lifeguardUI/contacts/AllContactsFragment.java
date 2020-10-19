@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,6 +26,13 @@ import com.example.byd.aplication.models.Contact;
 import com.example.byd.aplication.ui.blockifdrunkUI.phone.PhoneFragment;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.databinding.FragmentAllContactsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -36,10 +44,18 @@ public class AllContactsFragment extends Fragment {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private String userID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentAllContactsBinding binding = FragmentAllContactsBinding.inflate(inflater, container, false);
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
+
         contactsList = binding.allContactsList;
         contactArrayList = new ArrayList<>();
         ContentResolver cr = getActivity().getContentResolver();
@@ -95,8 +111,35 @@ public class AllContactsFragment extends Fragment {
                                 fragmentTransaction.commit();
                                 break;
                             case (R.id.blockItem):
+//                                ArrayList<Contact> newContacts = (ArrayList<Contact>) snapshot.getValue();
+//                                newContacts.add(new Contact(contactArrayList.get(position).getName() , contactArrayList.get(position).getPhoneNumber()));
+//                                databaseReference.setValue(newContacts);
                                 //Agregar contacto a la lista de bloqueos
+                                databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("lifeguard").child("blocks").child("contacts");
 
+                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                    ArrayList<Contact> newContacts = new ArrayList<>();
+                                    boolean oneTime = true;
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {};
+                                        newContacts = snapshot.getValue(t);
+                                        if(oneTime){
+                                            newContacts.add(new Contact(contactArrayList.get(position).getName() , contactArrayList.get(position).getPhoneNumber().replaceAll("\\s+", "")));
+                                            databaseReference.setValue(newContacts);
+                                            oneTime = false;
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+
+
+                                });
 
                                 break;
                         }
