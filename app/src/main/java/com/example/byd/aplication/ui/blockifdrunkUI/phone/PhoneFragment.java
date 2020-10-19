@@ -51,10 +51,14 @@ public class PhoneFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private String phone;
 
     public PhoneFragment() {
     }
 
+    public PhoneFragment(String phone){
+        this.phone = phone;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +70,11 @@ public class PhoneFragment extends Fragment {
 
 
         editTextNumber = fragmentPhoneBinding.editTextNumber;
+        if(phone != null){
+            phone = phone.replaceAll("\\s+", "");
+            editTextNumber.setText(phone.trim());
+        }
+
         phoneButton = fragmentPhoneBinding.buttonCall;
         phoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
