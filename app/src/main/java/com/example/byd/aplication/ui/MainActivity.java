@@ -8,9 +8,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.byd.R;
@@ -65,6 +68,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        if(getCurrentFocus() == null){
+
+        }
+        else {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
