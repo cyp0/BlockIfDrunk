@@ -47,7 +47,7 @@
             android:id="@+id/loginButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="52dp"
             android:onClick="login"
             android:text="@string/login"
             app:bootstrapBrand="primary"
@@ -63,14 +63,14 @@
             android:id="@+id/signUpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:onClick="signUp"
             android:text="@string/signUp"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/forgotPasswordButton"
             app:roundedCorners="true"
@@ -101,6 +101,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_logo" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_login"
+            android:layout_width="36dp"
+            android:layout_height="33dp"
+            android:max="100"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/loginButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

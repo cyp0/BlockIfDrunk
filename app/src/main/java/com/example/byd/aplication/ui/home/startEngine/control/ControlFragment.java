@@ -64,8 +64,7 @@ public class ControlFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentControlBinding binding = FragmentControlBinding.inflate(inflater, container, false);
-        fragmentManager = getParentFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -129,6 +128,8 @@ public class ControlFragment extends Fragment {
                     catch (IOException e)
                     { Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();;}
                 }
+                fragmentManager = getParentFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
                 fragmentTransaction.commit();
             }
@@ -142,6 +143,7 @@ public class ControlFragment extends Fragment {
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
     }
 
+    //Esto provoca que se tarde en abrir el fragment en devices fragment
     @Override
     public void onResume()
     {

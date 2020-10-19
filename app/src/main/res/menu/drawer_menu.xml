@@ -27,6 +27,15 @@
                 android:title="Lifeguard">
 
             </item>
+
+
+            <item
+                android:id="@+id/contactsItem"
+                android:icon="@drawable/ic_people_black_24dp"
+                android:title="Contactos">
+
+            </item>
+
             <!--
             <item
                 android:id="@+id/appLockerItem"
@@ -48,7 +57,7 @@
             </item>
 
             <item
-                android:id="@+id/contactItem"
+                android:id="@+id/contactsBlockedItem"
                 android:icon="@drawable/ic_contacts_black_24dp"
                 android:title="Blocks">
             </item>

@@ -12,11 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.byd.R;
 import com.example.byd.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +55,9 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText calleYNumeroEditText;
     private EditText confirmPasswordEditText;
 
+    private ProgressBar progressBar;
+    private BootstrapButton button;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -69,7 +75,8 @@ public class SignUpActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         ActivitySignUpBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
-
+        progressBar = binding.progressBarSignup;
+        button = binding.signUpButton;
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -113,6 +120,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void SignUp(View view) {
+        button.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         final String username = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
         final String nombre = userEditText.getText().toString().trim();
@@ -126,8 +137,14 @@ public class SignUpActivity extends AppCompatActivity {
         final String confirmPassword = confirmPasswordEditText.getText().toString();
 
         if (nombre.isEmpty() && celular.isEmpty() && colonia.isEmpty() && calleYNumero.isEmpty()) {
+            progressBar.setVisibility(View.GONE);
+            button.setVisibility(View.VISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             createSnackbar(R.string.emptyFields);
         } else if (!password.equals(confirmPassword)) {
+            progressBar.setVisibility(View.GONE);
+            button.setVisibility(View.VISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             createSnackbar(R.string.confirmPassword);
 
         } else {
@@ -144,6 +161,9 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    button.setVisibility(View.VISIBLE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(SignUpActivity.this, "Error al Registrar", Toast.LENGTH_SHORT).show();
                 } else {
                     Map<String, Object> value = new HashMap<>();
@@ -161,6 +181,8 @@ public class SignUpActivity extends AppCompatActivity {
                     databaseReference.child("Users").child(id).setValue(value);
                     assert user != null;
 
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Snackbar.make(findViewById(R.id.signUpLayout), R.string.confirmEmail, Snackbar.LENGTH_SHORT)
                             .addCallback(new Snackbar.Callback(){
                                 @Override

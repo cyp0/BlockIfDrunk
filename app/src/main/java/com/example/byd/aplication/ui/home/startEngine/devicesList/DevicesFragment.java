@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,8 @@ public class DevicesFragment extends Fragment {
 
     private static final String TAG = "DevicesFragment";
 
-    ListView listViewPairedDevices;
+    private ListView listViewPairedDevices;
+    private ProgressBar progressBar;
 
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
@@ -58,18 +60,11 @@ public class DevicesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FragmentDevicesBinding fragmentDevicesBinding = FragmentDevicesBinding.inflate(inflater, container, false);
+        progressBar = fragmentDevicesBinding.progressBarDevices;
         listViewPairedDevices = fragmentDevicesBinding.listViewDevices;
-        fragmentManager = getParentFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+
 //        View view = inflater.inflate(R.layout.fragment_devices, container, false);
-        button = fragmentDevicesBinding.devicesButton;
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentTransaction.replace(R.id.containerOfFragments, new ControlFragment(), "devices").addToBackStack("devices");
-                fragmentTransaction.commit();
-            }
-        });
+
         return fragmentDevicesBinding.getRoot();
     }
 
@@ -101,18 +96,18 @@ public class DevicesFragment extends Fragment {
         //---------------------------------------------------------------------
     }
 
-    // Configura un (on-click) para la lista
-    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView av, View v, int arg2, long arg3) {
 
-            // Obtener la dirección MAC del dispositivo, que son los últimos 17 caracteres en la vista
+    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
+
+        public void onItemClick(AdapterView av, View v, int arg2, long arg3) {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
             System.out.println(address);
 
-            // Realiza un intent para iniciar la siguiente actividad
-            // mientras toma un EXTRA_DEVICE_ADDRESS que es la dirección MAC.
+
             if(address.equals("45:54:14:04:7B:07")) {
+                fragmentManager = getParentFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerOfFragments, new ControlFragment(address), "devices").addToBackStack("devices");
                 fragmentTransaction.commit();
             }else {

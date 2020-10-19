@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+    private ProgressBar progressBar;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private FirebaseAuth firebaseAuth;
@@ -36,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
         ActivityLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-
+        progressBar = binding.progressBarLogin;
         usernameEditText = binding.username;
         passwordEditText = binding.password;
 
@@ -72,10 +76,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
 
         if(username.isEmpty() || password.isEmpty()){
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), "Contraseña Vacia", Snackbar.LENGTH_LONG );
             snackbar.show();
 //            View snackbarView= snackbar.getView();
@@ -89,12 +98,18 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
                     }
                    else if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(LoginActivity.this, "Correo no verificado", Toast.LENGTH_SHORT).show();
                     }
                     else if(task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Intent toEngine = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(toEngine);
                     }

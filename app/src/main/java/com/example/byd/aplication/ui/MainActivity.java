@@ -19,6 +19,7 @@ import com.example.byd.aplication.ui.blockifdrunkUI.block.ContactsFragment;
 import com.example.byd.aplication.ui.blockifdrunkUI.history.HistoryFragment;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.user.UserFragment;
+import com.example.byd.aplication.ui.lifeguardUI.contacts.AllContactsFragment;
 import com.example.byd.aplication.ui.lifeguardUI.lifeguard.LifeguardFragment;
 import com.example.byd.aplication.ui.blockifdrunkUI.phone.PhoneFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.containerOfFragments, new LifeguardFragment());
                 fragmentTransaction.commit();
                 break;
+            case (R.id.contactsItem):
+                fragmentTransaction.replace(R.id.containerOfFragments, new AllContactsFragment());
+                fragmentTransaction.commit();
+                break;
             case (R.id.phoneItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new PhoneFragment());
                 fragmentTransaction.commit();
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
                 fragmentTransaction.commit();
                 break;
-            case (R.id.contactItem):
+            case (R.id.contactsBlockedItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new ContactsFragment());
                 fragmentTransaction.commit();
                 break;
