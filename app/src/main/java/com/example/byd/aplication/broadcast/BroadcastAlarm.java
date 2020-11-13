@@ -71,8 +71,8 @@ public class BroadcastAlarm extends BroadcastReceiver {
         }
 
 
-
-        if(topPackageName.equals("com.android.contacts") && !hasDatePassed){
+//|| topPackageName.equals("com.android.dialer")
+        if(topPackageName.equals("com.android.contacts")  && !hasDatePassed){
             Intent startHomescreen = new Intent(Intent.ACTION_MAIN);
             startHomescreen.addCategory(Intent.CATEGORY_HOME);
             startHomescreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -2,6 +2,8 @@ package com.example.byd.aplication.ui.lifeguardUI.lifeguard;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -31,6 +33,7 @@ import com.example.byd.aplication.service.BackgroundService;
 import com.example.byd.aplication.service.Utils;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.aplication.ui.home.startEngine.devicesList.DevicesFragment;
+import com.example.byd.aplication.ui.home.startEngine.devicesList.LoadingDialog;
 import com.example.byd.aplication.ui.lifeguardUI.addContact.AddContactFragment;
 import com.example.byd.databinding.LifeguardFragmentBinding;
 import com.google.android.material.snackbar.Snackbar;
@@ -100,6 +103,7 @@ public class LifeguardFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+
         //Number Picker
         numberPicker = binding.numberPicker;
 
@@ -125,36 +129,60 @@ public class LifeguardFragment extends Fragment {
         binding.confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Setting permissions
-                if (Utils.checkPermission(getActivity())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Advertencia")
+                        .setMessage("Al utilizar esta funcion se te impedira acceder a tu app de contactos" +
+                                " por el tiempo de bloqueo, por lo que para llamar utiliza la funcion de " +
+                                "telefono y contactos de la aplicacion")
+                        .setPositiveButton("Entiendo", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (Utils.checkPermission(getActivity())) {
 
-                    //Agregar if de permiso de overlay extra
-                    //If user has Android 10 or superior
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        if (!Settings.canDrawOverlays(getActivity())) {
-                            Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    requestOverlayPermission();
+                                    //Agregar if de permiso de overlay extra
+                                    //If user has Android 10 or superior
+                                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        if (!Settings.canDrawOverlays(getActivity())) {
+                                            Snackbar.make(getView() , "Necesitas un permiso extra por la version de Android de tu telefono" , Snackbar.LENGTH_LONG).show();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    requestOverlayPermission();
+                                                }
+                                            }, 2500);
+                                        } else {
+                                            addToFirebase();
+                                        }
+                                    }else {
+                                        addToFirebase();
+                                    }
+                                } else {
+
+                                    Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            requestUsageAccessPermission();
+                                        }
+                                    }, 2500);
+
                                 }
-                            }, 2500);
-                        } else {
-                           addToFirebase();
-                        }
-                    }else {
-                       addToFirebase();
-                    }
-                } else {
-                    Snackbar.make(getView() , "Necesitas un permiso extra por la version de Android de tu telefono" , Snackbar.LENGTH_LONG).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            requestUsageAccessPermission();
-                        }
-                    }, 2500);
+                            }
+                        })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
+                    }
+                });
+
+                builder.show();
+
+//                Dialog dialog = new Dialog();
+//                dialog.show(getActivity().getSupportFragmentManager(), "disclaimer");
+
+                //Setting permissions
+
             }
         });
 

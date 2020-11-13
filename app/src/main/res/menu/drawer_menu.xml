@@ -24,7 +24,7 @@
             <item
                 android:id="@+id/lifeguardItem"
                 android:icon="@drawable/ic_contacts_black_24dp"
-                android:title="Lifeguard">
+                android:title="Bloquear Contactos">
 
             </item>
 
@@ -61,13 +61,14 @@
                 android:icon="@drawable/ic_contacts_black_24dp"
                 android:title="Blocks">
             </item>
-
+<!--
             <item
                 android:id="@+id/historialItem"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="@string/historial">
 
             </item>
+            -->
         </menu>
     </item>
 

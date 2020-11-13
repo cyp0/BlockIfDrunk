@@ -11,7 +11,7 @@
     <ListView
         android:id="@+id/allContactsList"
         android:layout_width="294dp"
-        android:layout_height="419dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="92dp"
         android:divider="@null"
         android:dividerHeight="5dp"

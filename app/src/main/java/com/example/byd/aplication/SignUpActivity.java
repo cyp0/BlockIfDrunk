@@ -51,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText phoneEditText;
+    private EditText emergencyPhoneEditText;
     private EditText coloniaEditText;
     private EditText calleYNumeroEditText;
     private EditText confirmPasswordEditText;
@@ -85,6 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
         passwordEditText = binding.newPassword;
         profilePic = binding.profilePic;
         phoneEditText = binding.editTextPhone;
+        emergencyPhoneEditText = binding.editTextPhoneLifeguard;
         coloniaEditText = binding.editTextColonia;
         calleYNumeroEditText = binding.editTextCalle;
         confirmPasswordEditText = binding.passwordEdidText;
@@ -130,13 +132,15 @@ public class SignUpActivity extends AppCompatActivity {
 
         final String celular = phoneEditText.getText().toString().trim();
 
+        final String emergencyPhone = emergencyPhoneEditText.getText().toString().trim();
+
         final String colonia = coloniaEditText.getText().toString().trim();
 
         final String calleYNumero = calleYNumeroEditText.getText().toString().trim();
 
         final String confirmPassword = confirmPasswordEditText.getText().toString();
 
-        if (nombre.isEmpty() && celular.isEmpty() && colonia.isEmpty() && calleYNumero.isEmpty()) {
+        if (nombre.isEmpty() && celular.isEmpty() && colonia.isEmpty() && calleYNumero.isEmpty() && emergencyPhone.isEmpty()) {
             progressBar.setVisibility(View.GONE);
             button.setVisibility(View.VISIBLE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -149,14 +153,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         } else {
 
-            createUser(username, password, nombre, celular, colonia, calleYNumero);
+            createUser(username, password, nombre, celular, colonia, calleYNumero, emergencyPhone);
 
         }
     }
 
 
 
-    private void createUser(final String username, String password, final String nombre, final String celular, final String colonia, final String calleYNumero) {
+    private void createUser(final String username, String password, final String nombre, final String celular, final String colonia, final String calleYNumero, final String emergencyPhone) {
         firebaseAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -170,6 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
                     value.put("nombre", nombre);
                     value.put("correo", username);
                     value.put("celular", celular);
+                    value.put("emergency", emergencyPhone);
                     value.put("colonia", colonia);
                     value.put("calleYNumero", calleYNumero);
                     FirebaseUser user = firebaseAuth.getCurrentUser();

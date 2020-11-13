@@ -10,21 +10,22 @@
 
         <ImageButton
             android:id="@+id/imageButtonForward"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:background="@drawable/ic_arrow_upward_black_24dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonStop"
             app:layout_constraintEnd_toStartOf="@+id/imageButtonTurnRight"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageButtonTurnLeft"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
             android:id="@+id/imageButtonTurnLeft"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-
-
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:visibility="gone"
             android:background="@drawable/ic_arrow_back_black_24dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonBackward"
@@ -35,9 +36,10 @@
 
         <ImageButton
             android:id="@+id/imageButtonTurnRight"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:background="@drawable/ic_arrow_forward_black_24dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/imageButtonBackward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -47,9 +49,10 @@
 
         <ImageButton
             android:id="@+id/imageButtonBackward"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:background="@drawable/ic_arrow_downward_black_24dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageButtonTurnRight"
             app:layout_constraintStart_toEndOf="@+id/imageButtonTurnLeft"
@@ -58,12 +61,12 @@
 
         <ImageButton
             android:id="@+id/imageButtonStop"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:background="@drawable/ic_stop_black_24dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,5 +79,40 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/startCartButton2"
+            android:layout_width="149dp"
+            android:layout_height="154dp"
+            android:background="@drawable/round_button"
+            android:text="@string/encender"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.348" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBreath" />
+
+        <TextView
+            android:id="@+id/textViewBreath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:text="Analizando Aliento"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonForward" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

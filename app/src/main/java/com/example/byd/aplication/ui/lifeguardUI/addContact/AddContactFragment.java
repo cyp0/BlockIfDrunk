@@ -2,6 +2,7 @@ package com.example.byd.aplication.ui.lifeguardUI.addContact;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +19,12 @@ import com.example.byd.aplication.models.Contact;
 import com.example.byd.aplication.ui.lifeguardUI.lifeguard.LifeguardFragment;
 import com.example.byd.databinding.FragmentAddContactBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,6 +40,10 @@ public class AddContactFragment extends Fragment {
     private BootstrapButton button;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
+    private DatabaseReference userReference;
+    private DatabaseReference emergencyReference;
+    private String lifeguardNumber;
 
     public AddContactFragment() {
         // Required empty public constructor
@@ -57,6 +68,21 @@ public class AddContactFragment extends Fragment {
         editTextPhone = binding.contactNumber;
         button = binding.addContact;
 
+        String id = FirebaseAuth.getInstance().getUid();
+        userReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id);
+        emergencyReference = userReference.child("emergency");
+
+        emergencyReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                lifeguardNumber = ((String) snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 //        contacts = new ArrayList<>();
 //        contact = new Contact(contactName, phone);
@@ -76,7 +102,10 @@ public class AddContactFragment extends Fragment {
                     }
                 }
 
-                if(duplicated){
+                if(phone.equals(lifeguardNumber)){
+                    Snackbar.make(v, "No puedes bloquear a tu contacto de emergencia" , Snackbar.LENGTH_LONG).show();
+                }
+                else if(duplicated){
                     Snackbar.make(v, "El numero ya habia sido agregado" , Snackbar.LENGTH_LONG).show();
 //                    try {
 //                        Thread.sleep(3000);

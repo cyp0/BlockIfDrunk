@@ -145,10 +145,12 @@ public class PhoneFragment extends Fragment {
                         e.printStackTrace();
                     }
                     Boolean hasDatePassed = false;
-                    if (dateNow.compareTo(dateOfBlock) < 0) {
-                        hasDatePassed = false;
-                    } else if (dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0) {
-                        hasDatePassed = true;
+                    if(dateOfBlock != null) {
+                        if (dateNow.compareTo(dateOfBlock) < 0) {
+                            hasDatePassed = false;
+                        } else if (dateNow.compareTo(dateOfBlock) > 0 || dateNow.compareTo(dateOfBlock) == 0) {
+                            hasDatePassed = true;
+                        }
                     }
 
 
@@ -156,7 +158,7 @@ public class PhoneFragment extends Fragment {
                     if (isBlocked &&!hasDatePassed) {
                         Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    } else {
+                    } else if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
 //                        ActivityManager am = (ActivityManager) getActivity().getSystemService(
 //                                Context.ACTIVITY_SERVICE);
 //                        am.killBackgroundProcesses(getActivity().getPackageName());

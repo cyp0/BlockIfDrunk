@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signUpLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".aplication.SignUpActivity"
-        android:id="@+id/signUpLayout"
-        >
+        tools:context=".aplication.SignUpActivity">
 
 
         <EditText
@@ -70,6 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newEmail" />
 
+
         <ImageView
             android:id="@+id/imageView11"
             android:layout_width="25dp"
@@ -82,6 +82,27 @@
             tools:ignore="VectorDrawableCompat" />
 
         <EditText
+            android:id="@+id/editTextPhoneLifeguard"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Contacto de emergencia"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+
+        <ImageView
+            android:id="@+id/imageViewEmergency"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/editTextPhoneLifeguard"
+            app:layout_constraintEnd_toStartOf="@+id/editTextPhoneLifeguard"
+            app:layout_constraintTop_toTopOf="@+id/editTextPhoneLifeguard"
+            app:srcCompat="@drawable/ic_phone_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
+        <EditText
             android:id="@+id/editTextColonia"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -90,9 +111,9 @@
             android:hint="@string/colonia"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhoneLifeguard" />
 
         <ImageView
             android:id="@+id/imageView12"
@@ -178,7 +199,7 @@
             android:id="@+id/signUpButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="32dp"
             android:onClick="SignUp"
             android:text="@string/registrar"
             app:bootstrapBrand="primary"
@@ -206,7 +227,7 @@
             android:id="@+id/profilePic"
             android:layout_width="166dp"
             android:layout_height="159dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/round_button"
             android:onClick="profileAvatarHandler"
             app:layout_constraintEnd_toEndOf="parent"

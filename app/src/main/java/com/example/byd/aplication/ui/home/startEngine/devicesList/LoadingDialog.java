@@ -11,7 +11,7 @@ public class LoadingDialog {
     private Activity activity;
     private AlertDialog dialog;
 
-    LoadingDialog(Activity activity){
+    public LoadingDialog(Activity activity){
         this.activity = activity;
     }
 

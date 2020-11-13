@@ -1,6 +1,8 @@
 package com.example.byd.aplication.ui.lifeguardUI.contacts;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -58,6 +60,26 @@ public class AllContactsFragment extends Fragment {
 
         contactsList = binding.allContactsList;
         contactArrayList = new ArrayList<>();
+        if (getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            showContacts();
+        }else {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS} , 1);
+        }
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 1){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showContacts();
+            } else {
+                Toast.makeText(this.getContext(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void showContacts() {
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
@@ -88,7 +110,7 @@ public class AllContactsFragment extends Fragment {
                 }
             }
         }
-        if(cur!=null){
+        if (cur != null) {
             cur.close();
         }
         final ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.custom_layout, contactArrayList);
@@ -120,12 +142,14 @@ public class AllContactsFragment extends Fragment {
                                 databaseReference.addValueEventListener(new ValueEventListener() {
                                     ArrayList<Contact> newContacts = new ArrayList<>();
                                     boolean oneTime = true;
+
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {};
+                                        GenericTypeIndicator<ArrayList<Contact>> t = new GenericTypeIndicator<ArrayList<Contact>>() {
+                                        };
                                         newContacts = snapshot.getValue(t);
-                                        if(oneTime){
-                                            newContacts.add(new Contact(contactArrayList.get(position).getName() , contactArrayList.get(position).getPhoneNumber().replaceAll("\\s+", "")));
+                                        if (oneTime) {
+                                            newContacts.add(new Contact(contactArrayList.get(position).getName(), contactArrayList.get(position).getPhoneNumber().replaceAll("\\s+", "")));
                                             databaseReference.setValue(newContacts);
                                             oneTime = false;
                                         }
@@ -148,6 +172,5 @@ public class AllContactsFragment extends Fragment {
                 });
             }
         });
-        return binding.getRoot();
     }
 }
