@@ -24,7 +24,7 @@
             <item
                 android:id="@+id/lifeguardItem"
                 android:icon="@drawable/ic_contacts_black_24dp"
-                android:title="Bloquear Contactos">
+                android:title="@string/bloquear_contactos">
 
             </item>
 
@@ -32,7 +32,7 @@
             <item
                 android:id="@+id/contactsItem"
                 android:icon="@drawable/ic_people_black_24dp"
-                android:title="Contactos">
+                android:title="@string/contactos">
 
             </item>
 
@@ -59,22 +59,30 @@
             <item
                 android:id="@+id/contactsBlockedItem"
                 android:icon="@drawable/ic_contacts_black_24dp"
-                android:title="Blocks">
+                android:title="@string/blocks">
             </item>
-<!--
+
+            <!--
             <item
                 android:id="@+id/historialItem"
                 android:icon="@drawable/ic_history_black_24dp"
                 android:title="@string/historial">
 
             </item>
-            -->
+    !-->
         </menu>
     </item>
 
     <item android:title="Opciones">
         <menu>
 
+            <item
+                android:id="@+id/languageItem"
+                android:icon="@drawable/ic_g_translate_black_24dp"
+                android:title="@string/switch_to_english"
+                >
+
+            </item>
             <item
                 android:id="@+id/bluetoothItem"
                 android:icon="@drawable/ic_bluetooth_black_24dp"

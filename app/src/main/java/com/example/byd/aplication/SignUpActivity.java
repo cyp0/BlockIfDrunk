@@ -168,7 +168,8 @@ public class SignUpActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     button.setVisibility(View.VISIBLE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Toast.makeText(SignUpActivity.this, "Error al Registrar", Toast.LENGTH_SHORT).show();
+                    createSnackbar( R.string.registration_error);
+//                    Toast.makeText(SignUpActivity.this, R.string.registration_error, Toast.LENGTH_SHORT).show();
                 } else {
                     Map<String, Object> value = new HashMap<>();
                     value.put("nombre", nombre);

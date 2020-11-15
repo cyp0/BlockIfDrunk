@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Contacto de emergencia"
+            android:hint="@string/contacto_de_emergencia"
             android:inputType="phone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginStart="8dp"
-            android:text="Contacto de emergencia"
+            android:text="@string/contacto_de_emergencia"
             app:layout_constraintStart_toStartOf="@+id/editTextPhoneLifeguard"
             app:layout_constraintTop_toBottomOf="@+id/editTextPhoneLifeguard" />
 
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:onClick="SignUp"
-            android:text="Salvar"
+            android:text="@string/salvar"
             app:bootstrapBrand="primary"
             app:bootstrapSize="lg"
 

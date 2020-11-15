@@ -111,7 +111,7 @@ public class DevicesFragment extends Fragment {
                 fragmentTransaction.replace(R.id.containerOfFragments, new ControlFragment(address), "devices").addToBackStack("devices");
                 fragmentTransaction.commit();
             }else {
-                Snackbar.make(getView(), "No elegiste el carro", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.wrong_pick, Snackbar.LENGTH_SHORT).show();
             }
         }
     };
@@ -120,10 +120,10 @@ public class DevicesFragment extends Fragment {
         // Comprueba que el dispositivo tiene Bluetooth y que está encendido.
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
-            Toast.makeText(getActivity(), "El dispositivo no soporta Bluetooth", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.bluetooth_unsupported, Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {
-                Log.d(TAG, "...Bluetooth Activado...");
+                Log.d(TAG, getString(R.string.bt_activated));
             } else {
                 //Solicita al usuario que active Bluetooth
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

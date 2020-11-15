@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         if(username.isEmpty() || password.isEmpty()){
             progressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), "Contraseña Vacia", Snackbar.LENGTH_LONG );
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), R.string.empty_password, Snackbar.LENGTH_LONG );
             snackbar.show();
 //            View snackbarView= snackbar.getView();
 //            TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -100,12 +100,14 @@ public class LoginActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, R.string.wrong_credentials, Snackbar.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
                     }
                    else if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        Toast.makeText(LoginActivity.this, "Correo no verificado", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(view, R.string.mail_unveryfied, Snackbar.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this,"Correo no verificado" , Toast.LENGTH_SHORT).show();
                     }
                     else if(task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);

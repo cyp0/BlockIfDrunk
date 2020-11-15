@@ -130,11 +130,9 @@ public class LifeguardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Advertencia")
-                        .setMessage("Al utilizar esta funcion se te impedira acceder a tu app de contactos" +
-                                " por el tiempo de bloqueo, por lo que para llamar utiliza la funcion de " +
-                                "telefono y contactos de la aplicacion")
-                        .setPositiveButton("Entiendo", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.warning)
+                        .setMessage(R.string.warning_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Utils.checkPermission(getActivity())) {
@@ -143,7 +141,7 @@ public class LifeguardFragment extends Fragment {
                                     //If user has Android 10 or superior
                                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                         if (!Settings.canDrawOverlays(getActivity())) {
-                                            Snackbar.make(getView() , "Necesitas un permiso extra por la version de Android de tu telefono" , Snackbar.LENGTH_LONG).show();
+                                            Snackbar.make(getView() , R.string.permission_1 , Snackbar.LENGTH_LONG).show();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -158,7 +156,7 @@ public class LifeguardFragment extends Fragment {
                                     }
                                 } else {
 
-                                    Snackbar.make(getView() , "Necesitas dar permisos a la app para acceder a esta funcion" , Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(getView() , R.string.permission_2 , Snackbar.LENGTH_LONG).show();
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -169,7 +167,7 @@ public class LifeguardFragment extends Fragment {
                                 }
                             }
                         })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -223,7 +221,7 @@ public class LifeguardFragment extends Fragment {
         Map<String, Object> value = new HashMap<>();
         value.put("blocks", new BlockedContact(date, contacts));
         databaseReference.child("Users").child(id).child("lifeguard").setValue(value);
-        Snackbar.make(getView(), "Contactos bloqueados", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(), R.string.contactos_bloqueados, Snackbar.LENGTH_SHORT).show();
         fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
         fragmentTransaction.commit();
     }

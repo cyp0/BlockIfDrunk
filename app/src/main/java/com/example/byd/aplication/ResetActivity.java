@@ -34,7 +34,7 @@ public class ResetActivity extends AppCompatActivity {
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Snackbar snackbar =  Snackbar.make(findViewById(R.id.resetLayout), "Correo enviado a su cuenta", Snackbar.LENGTH_SHORT);
+                Snackbar snackbar =  Snackbar.make(findViewById(R.id.resetLayout), R.string.password_reset, Snackbar.LENGTH_SHORT);
                 snackbar.show();
 
             }

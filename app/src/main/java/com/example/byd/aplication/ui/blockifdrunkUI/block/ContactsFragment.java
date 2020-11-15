@@ -53,6 +53,7 @@ public class ContactsFragment extends Fragment {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("lifeguard").child("blocks").child("contacts");
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

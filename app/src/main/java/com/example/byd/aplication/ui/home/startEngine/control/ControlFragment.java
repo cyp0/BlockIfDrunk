@@ -120,21 +120,21 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Intrucciones")
-                        .setMessage("Por favor sople al alcoholimetro y presionese ok para avanzar.")
+                builder.setTitle(R.string.instructions)
+                        .setMessage(R.string.breathAnalysis)
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 textViewBreath.setVisibility(View.VISIBLE);
-                                MyConexionBT.write("d");
+//                                MyConexionBT.write("d");
 //                //Esperar 15 segundos para checar nuevamente el estado de drunk
 
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         if (!drunk) {
-                                            Snackbar.make(v, "Buen viaje", Snackbar.LENGTH_SHORT).show();
+                                            Snackbar.make(v, R.string.good_trip, Snackbar.LENGTH_SHORT).show();
                                             startCarButton.setVisibility(View.GONE);
                                             progressBar.setVisibility(View.GONE);
                                             textViewBreath.setVisibility(View.GONE);
@@ -152,7 +152,7 @@ public class ControlFragment extends Fragment {
                                 }, 16000L);
                             }
                         })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -247,38 +247,40 @@ public class ControlFragment extends Fragment {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        final Double[] lat = new Double[1];
+        final Double[] lon = new Double[1];
         if (getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && getActivity().getApplicationContext().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        final Double lat = location.getLatitude();
-                        final Double lon = location.getLongitude();
-                        String id = FirebaseAuth.getInstance().getUid();
-                        firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("emergency");
-                        firebaseDatabase.addValueEventListener(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                System.out.println("***Prueba***");
-                                String lifeguardNumber = (String) snapshot.getValue();
-                                System.out.println(lat);
-                                System.out.println(lon);
-                                System.out.println(lifeguardNumber);
-                                sendMessage(lat, lon, lifeguardNumber);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-
-                        });
-
-
+                        lat[0] = location.getLatitude();
+                        lon[0] = location.getLongitude();
                     }
                 }
             });
+
+            String id = FirebaseAuth.getInstance().getUid();
+            firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("emergency");
+            firebaseDatabase.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    System.out.println("***Prueba***");
+                    String lifeguardNumber = (String) snapshot.getValue();
+                    System.out.println(lat[0]);
+                    System.out.println(lon[0]);
+                    System.out.println(lifeguardNumber);
+                    sendMessage(lat[0], lon[0], lifeguardNumber);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+
+            });
+
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 1);
 
@@ -289,11 +291,11 @@ public class ControlFragment extends Fragment {
 
     private void sendMessage(Double lat, Double lon, String lifeguardNumber) {
 
-        String message = ("Ubicacion : Latitud: " + lat + " Longitud: " + lon + " necesito tu ayuda, en mi estado no puedo conducir *Mensaje Enviado automaticamente por BlockIfDrunk");
+        String message = (getString(R.string.sms_p1) + lat + getString(R.string.longitud) + lon + getString(R.string.sms_p2));
 
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(lifeguardNumber, null, message, null, null);
-        Snackbar.make(getView(), "Mensaje enviado", Snackbar.LENGTH_LONG).show();
+        smsManager.sendTextMessage("8110261226", null, message, null, null);
+        Snackbar.make(getView(), R.string.sms_success, Snackbar.LENGTH_LONG).show();
         fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
         fragmentTransaction.commit();
 
@@ -318,7 +320,7 @@ public class ControlFragment extends Fragment {
         try {
             btSocket = createBluetoothSocket(device);
         } catch (IOException e) {
-            Toast.makeText(getActivity(), "La creacción del Socket fallo", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.socket_failed, Toast.LENGTH_LONG).show();
         }
         // Establece la conexión con el socket Bluetooth.
         try {
@@ -347,7 +349,7 @@ public class ControlFragment extends Fragment {
     private void VerificarEstadoBT() {
 
         if (btAdapter == null) {
-            Toast.makeText(getActivity(), "El dispositivo no soporta bluetooth", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.bluetooth_unsupported, Toast.LENGTH_LONG).show();
         } else {
             if (btAdapter.isEnabled()) {
             } else {
@@ -391,11 +393,6 @@ public class ControlFragment extends Fragment {
                     if (ch == 'n') {
                         drunk = false;
                         System.out.println("No esta Borracho " + drunk);
-
-                    }
-                    if (ch == '9') {
-                        startCarButton.setVisibility(View.VISIBLE);
-                        System.out.println("Adelante");
                     }
                     bluetoothIn.obtainMessage(handlerState, ch).sendToTarget();
                 } catch (IOException e) {
@@ -410,7 +407,7 @@ public class ControlFragment extends Fragment {
                 mmOutStream.write(input.getBytes());
             } catch (IOException e) {
 
-                Toast.makeText(getActivity(), "La Conexión fallo", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.connection_failed, Toast.LENGTH_LONG).show();
 
                 fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
                 fragmentTransaction.commit();
@@ -425,7 +422,7 @@ public class ControlFragment extends Fragment {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 drunkEvent();
             } else {
-                Toast.makeText(this.getContext(), "Permission DENIED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(), R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

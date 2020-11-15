@@ -10,7 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
@@ -29,6 +34,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
+@SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -123,6 +131,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intentOpenBluetoothSettings.setAction(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
                 startActivity(intentOpenBluetoothSettings);
                 break;
+            case (R.id.languageItem):
+                Locale myLocale;
+                if(item.getTitle().equals("Cambiar a Español")){
+                    myLocale = new Locale("es");
+                }else {
+                    myLocale = new Locale("en");
+                }
+                Resources res = getResources();
+                DisplayMetrics dm = res.getDisplayMetrics();
+                Configuration conf = res.getConfiguration();
+                conf.locale = myLocale;
+                res.updateConfiguration(conf, dm);
+                Intent refresh = new Intent(this, MainActivity.class);
+                finish();
+                startActivity(refresh);
+                break;
             case (R.id.logoutItem):
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
@@ -151,7 +175,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onSupportNavigateUp();
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 }
 
 

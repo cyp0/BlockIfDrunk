@@ -137,7 +137,7 @@ public class UserFragment extends Fragment {
                 value.put("colonia", colonia);
                 value.put("calleYNumero", calleYNumero);
                 userReference.setValue(value);
-                Snackbar.make(getView(), "Guardado" , Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.saved , Snackbar.LENGTH_SHORT).show();
                 fragmentManager = getParentFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());

@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/callItem"
-        android:title="Llamar">
+        android:title="@string/call">
     </item>
     <item
         android:id="@+id/blockItem"
-        android:title="Bloquear">
+        android:title="@string/block">
     </item>
 </menu>
