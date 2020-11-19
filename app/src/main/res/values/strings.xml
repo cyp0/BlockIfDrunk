@@ -39,7 +39,7 @@
     <string name="cancel">Cancelar</string>
     <string name="sms_p1">"Ubicacion : Latitud: "</string>
     <string name="longitud">"Longitud: "</string>
-    <string name="sms_p2">necesito tu ayuda, en mi estado no puedo conducir *Mensaje Enviado automaticamente por BlockIfDrunk</string>
+    <string name="sms_p2">necesito tu ayuda, en mi estado no puedo conducir, ven a recogerme. *Mensaje de prueba</string>
     <string name="sms_success">Mensaje enviado</string>
     <string name="socket_failed">La creacción del Socket fallo</string>
     <string name="bluetooth_unsupported">El dispositivo no soporta bluetooth</string>
@@ -67,4 +67,8 @@
     <string name="permission_1">Necesitas un permiso extra por la version de Android de tu telefono</string>
     <string name="permission_2">Necesitas dar permisos a la app para acceder a esta funcion</string>
     <string name="already_blocked">Contacto ya ha sido bloqueado</string>
+    <string name="cannotBlock">No puedes bloquear a tu contacto de emergencia</string>
+    <string name="alreadyAdded">El numero ya habia sido agregado</string>
+    <string name="bro">App esta bloqueada</string>
+    <string name="analizando_aliento">Analizando Aliento</string>
 </resources>

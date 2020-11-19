@@ -102,11 +102,11 @@ public class AddContactFragment extends Fragment {
                     }
                 }
 
-                if(phone.equals(lifeguardNumber)){
-                    Snackbar.make(v, "No puedes bloquear a tu contacto de emergencia" , Snackbar.LENGTH_LONG).show();
+                if(phone.equals(lifeguardNumber) || phone.equals("+52" + lifeguardNumber)){
+                    Snackbar.make(v, R.string.cannotBlock , Snackbar.LENGTH_LONG).show();
                 }
                 else if(duplicated){
-                    Snackbar.make(v, "El numero ya habia sido agregado" , Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(v, R.string.already_blocked , Snackbar.LENGTH_LONG).show();
 //                    try {
 //                        Thread.sleep(3000);
 //                    } catch (InterruptedException e) {

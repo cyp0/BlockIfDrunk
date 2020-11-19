@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.example.byd.R;
+import com.example.byd.aplication.models.History;
 import com.example.byd.aplication.ui.home.startEngine.StartCartFragment;
 import com.example.byd.databinding.FragmentControlBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,11 +47,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -127,7 +135,7 @@ public class ControlFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 textViewBreath.setVisibility(View.VISIBLE);
-//                                MyConexionBT.write("d");
+                                MyConexionBT.write("d");
 //                //Esperar 15 segundos para checar nuevamente el estado de drunk
 
                                 new Handler().postDelayed(new Runnable() {
@@ -256,30 +264,31 @@ public class ControlFragment extends Fragment {
                     if (location != null) {
                         lat[0] = location.getLatitude();
                         lon[0] = location.getLongitude();
+                        String id = FirebaseAuth.getInstance().getUid();
+                        firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("emergency");
+                        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                System.out.println("***Prueba***");
+                                String lifeguardNumber = (String) snapshot.getValue();
+                                System.out.println(lat[0]);
+                                System.out.println(lon[0]);
+                                System.out.println(lifeguardNumber);
+                                sendMessage(lat[0], lon[0], lifeguardNumber);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+
+                        });
                     }
                 }
             });
 
-            String id = FirebaseAuth.getInstance().getUid();
-            firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("emergency");
-            firebaseDatabase.addValueEventListener(new ValueEventListener() {
 
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    System.out.println("***Prueba***");
-                    String lifeguardNumber = (String) snapshot.getValue();
-                    System.out.println(lat[0]);
-                    System.out.println(lon[0]);
-                    System.out.println(lifeguardNumber);
-                    sendMessage(lat[0], lon[0], lifeguardNumber);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-
-            });
 
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.SEND_SMS}, 1);
@@ -291,11 +300,13 @@ public class ControlFragment extends Fragment {
 
     private void sendMessage(Double lat, Double lon, String lifeguardNumber) {
 
-        String message = (getString(R.string.sms_p1) + lat + getString(R.string.longitud) + lon + getString(R.string.sms_p2));
-
+        String message = (getString(R.string.sms_p1) + lat + getString(R.string.longitud) + lon + " " + getString(R.string.sms_p2));
+        System.out.println(message);
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("8110261226", null, message, null, null);
+        smsManager.sendTextMessage("+52" + lifeguardNumber, null, message, null, null);
         Snackbar.make(getView(), R.string.sms_success, Snackbar.LENGTH_LONG).show();
+        String ubication = "Latitud: " + lat + " Longitud: " + lon;
+        addToHistory(ubication);
         fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
         fragmentTransaction.commit();
 
@@ -425,5 +436,53 @@ public class ControlFragment extends Fragment {
                 Toast.makeText(this.getContext(), R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void addToHistory(String ubication){
+        String id = FirebaseAuth.getInstance().getUid();
+
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("history").child("records");
+        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+            ArrayList<History> newHistory = new ArrayList<>();
+            boolean oneTime = true;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                GenericTypeIndicator<ArrayList<History>> t = new GenericTypeIndicator<ArrayList<History>>() {
+                };
+                if(oneTime) {
+                    Map<String, Object> value = new HashMap<>();
+                    Date date = new Date();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    ArrayList<History> histories = new ArrayList<>();
+
+
+                    if(snapshot.getValue(t) != null) {
+                        newHistory = snapshot.getValue(t);
+                        newHistory.add((new History(formatter.format(date), ubication)));
+                        firebaseDatabase.setValue(newHistory);
+                        System.out.println("sdjadjsakld");
+                    }else {
+                        histories.add(new History(formatter.format(date), ubication));
+                        value.put("records", histories);
+                        FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("history").setValue(value);
+                    }
+
+                    oneTime = false;
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
     }
 }

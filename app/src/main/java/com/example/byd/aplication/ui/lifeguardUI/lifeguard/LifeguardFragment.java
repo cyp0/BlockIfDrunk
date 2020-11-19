@@ -206,7 +206,7 @@ public class LifeguardFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         //Esta en GMT
-        cal.add(Calendar.MINUTE, numberPicker.getValue());
+        cal.add(Calendar.HOUR, numberPicker.getValue());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
         String date = dateFormat.format(cal.getTime());
         FirebaseUser user = firebaseAuth.getCurrentUser();

@@ -156,7 +156,7 @@ public class PhoneFragment extends Fragment {
 
                     //Si esta bloqueado y si la fecha de bloqueo no ha pasado
                     if (isBlocked &&!hasDatePassed) {
-                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Numero bloqueado", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.containerOfFragments), "Number is blocked", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     } else if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
 //                        ActivityManager am = (ActivityManager) getActivity().getSystemService(

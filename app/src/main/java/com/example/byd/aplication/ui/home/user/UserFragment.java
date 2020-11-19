@@ -136,7 +136,8 @@ public class UserFragment extends Fragment {
                 value.put("emergency", emergencyPhone);
                 value.put("colonia", colonia);
                 value.put("calleYNumero", calleYNumero);
-                userReference.setValue(value);
+                userReference.updateChildren(value);
+//                userReference.setValue(value);
                 Snackbar.make(getView(), R.string.saved , Snackbar.LENGTH_SHORT).show();
                 fragmentManager = getParentFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();

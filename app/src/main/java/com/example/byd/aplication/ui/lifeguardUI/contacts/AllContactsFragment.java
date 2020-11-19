@@ -68,7 +68,7 @@ public class AllContactsFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    private String userID;
+    private String userID, lifeguardNumber;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +76,20 @@ public class AllContactsFragment extends Fragment {
         FragmentAllContactsBinding binding = FragmentAllContactsBinding.inflate(inflater, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         userID = firebaseAuth.getCurrentUser().getUid();
+
+        DatabaseReference lifeguardReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("emergency");
+
+        lifeguardReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                lifeguardNumber = ((String) snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         contactsList = binding.allContactsList;
         contactArrayList = new ArrayList<>();
@@ -182,6 +196,9 @@ public class AllContactsFragment extends Fragment {
                                                 if(isRepeated){
                                                     Snackbar.make(getView(), R.string.already_blocked, Snackbar.LENGTH_SHORT).show();
                                                 }
+                                                else if(contact.getPhoneNumber().equals(lifeguardNumber) || contact.getPhoneNumber().equals("+52" + lifeguardNumber)){
+                                                    Snackbar.make(getView(), R.string.cannotBlock , Snackbar.LENGTH_LONG).show();
+                                                }
                                                 else {
                                                     newContacts.forEach(x -> System.out.println(x));
                                                     newContacts.add(contact);
@@ -215,7 +232,7 @@ public class AllContactsFragment extends Fragment {
                                                                         Calendar cal = Calendar.getInstance();
                                                                         cal.setTime(new Date());
                                                                         //Esta en GMT
-                                                                        cal.add(Calendar.MINUTE, 1);
+                                                                        cal.add(Calendar.HOUR, 12);
                                                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
                                                                         String date = dateFormat.format(cal.getTime());
                                                                         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -245,7 +262,7 @@ public class AllContactsFragment extends Fragment {
                                                                     Calendar cal = Calendar.getInstance();
                                                                     cal.setTime(new Date());
                                                                     //Esta en GMT
-                                                                    cal.add(Calendar.MINUTE, 1);
+                                                                    cal.add(Calendar.HOUR, 12);
                                                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
                                                                     String date = dateFormat.format(cal.getTime());
                                                                     FirebaseUser user = firebaseAuth.getCurrentUser();

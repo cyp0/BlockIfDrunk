@@ -35,7 +35,7 @@
     <string name="cancel">Cancel</string>
     <string name="sms_p1">Ubication: Latitude:</string>
     <string name="longitud">\"Length:\"</string>
-    <string name="sms_p2">I need your help, in my state I can\'t drive * Message Sended automatically by BlockIfDrunk</string>
+    <string name="sms_p2">I need your help, in my state I can\'t drive, please pick me up * Message Sended automatically by BlockIfDrunk</string>
     <string name="sms_success">Message sended</string>
     <string name="socket_failed">Socket creation failed</string>
     <string name="bluetooth_unsupported">Bluetooth is not supported in this device</string>
@@ -63,4 +63,8 @@
     <string name="permission_1">You need an extra permission for the Android version of your phone</string>
     <string name="permission_2">You need to give the app permissions to access this function</string>
     <string name="already_blocked">Contact has already been blocked</string>
+    <string name="cannotBlock">You can not block your emergency contact</string>
+    <string name="analizando_aliento">Analyzing breath</string>
+    <string name="bro">App is blocked</string>
+    <string name="alreadyAdded">Number already added</string>
 </resources>
