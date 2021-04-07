@@ -62,14 +62,14 @@
                 android:title="@string/blocks">
             </item>
 
-            <!--
+
             <item
                 android:id="@+id/historialItem"
                 android:icon="@drawable/ic_history_black_24dp"
-                android:title="@string/historial">
+                android:title="Drunk Events">
 
             </item>
-    !-->
+
         </menu>
     </item>
 

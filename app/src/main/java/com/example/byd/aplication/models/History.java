@@ -6,13 +6,15 @@ public class History {
 
     private String hour;
     private String localization;
+    private String lifeguard;
 
     public History() {
     }
 
-    public History(String hour, String localization) {
+    public History(String hour, String localization, String lifeguard) {
         this.hour = hour;
         this.localization = localization;
+        this.lifeguard = lifeguard;
     }
 
     public String getHour() {
@@ -31,9 +33,17 @@ public class History {
         this.localization = localization;
     }
 
+    public String getLifeguard() {
+        return lifeguard;
+    }
+
+    public void setLifeguard(String lifeguard) {
+        this.lifeguard = lifeguard;
+    }
+
     @Override
     public String toString() {
-        return "Fecha : " + hour + "\nUbicacion:\n" + localization;
+        return "Fecha: " + hour + "\nUbicacion:\n" + localization + "\n" + "Contacto designado: " + lifeguard;
     }
 
 

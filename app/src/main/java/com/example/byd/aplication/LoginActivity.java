@@ -7,11 +7,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                         Snackbar.make(view, R.string.wrong_credentials, Snackbar.LENGTH_SHORT).show();
 //                        Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
                     }
@@ -118,6 +121,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     public void signUp(View view) {

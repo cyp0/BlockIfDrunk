@@ -63,7 +63,7 @@ public class BackgroundService extends Service {
 //                }, delay);
 //                registerScreenOffReceiver();
 //                Toast.makeText(context, "Service is still running", Toast.LENGTH_LONG).show();
-                handler.postDelayed(runnable, 3000);
+                handler.postDelayed(runnable, 5000);
             }
         };
 

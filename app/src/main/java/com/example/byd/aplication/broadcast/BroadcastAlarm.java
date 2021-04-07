@@ -16,10 +16,12 @@ import com.example.byd.R;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @SuppressWarnings("deprecation")
@@ -51,6 +53,8 @@ public class BroadcastAlarm extends BroadcastReceiver {
                 topPackageName =  runningTask.get(runningTask.lastKey()).getPackageName();
             }
         }
+
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
 
         Bundle extras = intent.getExtras();
@@ -74,7 +78,27 @@ public class BroadcastAlarm extends BroadcastReceiver {
 
 
 //|| topPackageName.equals("com.android.dialer")
-        if(topPackageName.equals("com.android.contacts")  && !hasDatePassed){
+//        com.facebook.katana
+//        com.whatsapp
+//        com.twitter.android.lite
+//        com.facebook.orca
+//        com.instagram.android
+        ArrayList<String> apps = new ArrayList<>();
+        apps.add("com.facebook.katana");
+        apps.add("com.whatsapp");
+        apps.add("com.twitter.android.lite");
+        apps.add("com.facebook.orca");
+        apps.add("com.instagram.android");
+
+        AtomicBoolean found = new AtomicBoolean(false);
+        String finalTopPackageName = topPackageName;
+        apps.forEach(app -> {
+            if(finalTopPackageName.equals(app)){
+                found.set(true);
+            }
+        });
+
+        if(found.get()  && !hasDatePassed){
             Intent startHomescreen = new Intent(Intent.ACTION_MAIN);
             startHomescreen.addCategory(Intent.CATEGORY_HOME);
             startHomescreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:visibility="gone"
-            android:text="@string/breathAnalysis"
+            android:text="@string/analizando_aliento"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

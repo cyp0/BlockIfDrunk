@@ -33,7 +33,7 @@
     <string name="breathAnalysis">Please blow the breathalyzer and press ok to advance.</string>
     <string name="good_trip">Enjoy the ride.</string>
     <string name="cancel">Cancel</string>
-    <string name="sms_p1">Ubication: Latitude:</string>
+    <string name="sms_p1">"I'm around this area "</string>
     <string name="longitud">\"Length:\"</string>
     <string name="sms_p2">I need your help, in my state I can\'t drive, please pick me up * Message Sended automatically by BlockIfDrunk</string>
     <string name="sms_success">Message sended</string>

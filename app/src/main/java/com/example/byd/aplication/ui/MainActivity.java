@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.replace(R.id.containerOfFragments, new PhoneFragment());
                 fragmentTransaction.commit();
                 break;
-//            case (R.id.historialItem):
-//                fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
-//                fragmentTransaction.commit();
-//                break;
+            case (R.id.historialItem):
+                fragmentTransaction.replace(R.id.containerOfFragments, new HistoryFragment());
+                fragmentTransaction.commit();
+                break;
             case (R.id.contactsBlockedItem):
                 fragmentTransaction.replace(R.id.containerOfFragments, new ContactsFragment());
                 fragmentTransaction.commit();

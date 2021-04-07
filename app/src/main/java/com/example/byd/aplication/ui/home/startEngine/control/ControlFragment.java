@@ -10,9 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -23,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,14 +54,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -275,7 +287,11 @@ public class ControlFragment extends Fragment {
                                 System.out.println(lat[0]);
                                 System.out.println(lon[0]);
                                 System.out.println(lifeguardNumber);
-                                sendMessage(lat[0], lon[0], lifeguardNumber);
+                                try {
+                                    sendMessage(lat[0], lon[0], lifeguardNumber);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
 
                             @Override
@@ -298,20 +314,184 @@ public class ControlFragment extends Fragment {
         //Obtener el contacto lifeguard del usuario
     }
 
-    private void sendMessage(Double lat, Double lon, String lifeguardNumber) {
+    private void sendMessage(Double lat, Double lon, String lifeguardNumber) throws IOException {
 
-        String message = (getString(R.string.sms_p1) + lat + getString(R.string.longitud) + lon + " " + getString(R.string.sms_p2));
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        addresses = geocoder.getFromLocation(lat, lon, 1);
+
+        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+        System.out.println(address);
+
+
+
+        String message = (getString(R.string.sms_p1) + address + " " + getString(R.string.sms_p2));
         System.out.println(message);
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage("+52" + lifeguardNumber, null, message, null, null);
         Snackbar.make(getView(), R.string.sms_success, Snackbar.LENGTH_LONG).show();
-        String ubication = "Latitud: " + lat + " Longitud: " + lon;
-        addToHistory(ubication);
+
+//        StringBuilder sbValue = new StringBuilder(sbMethod());
+//        PlacesTask placesTask = new PlacesTask();
+//        placesTask.execute(sbValue.toString());
+        addToHistory(address, lifeguardNumber);
         fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
         fragmentTransaction.commit();
 
     }
 
+//    public StringBuilder sbMethod() {
+//
+//        //use your current location here
+//        double mLatitude = 25.6030777;
+//        double mLongitude = -100.2618924;
+//
+//        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+//        sb.append("location=" + mLatitude + "," + mLongitude);
+//        sb.append("&radius=5000");
+//        sb.append("&types=" + "restaurant");
+//        sb.append("&sensor=true");
+//        sb.append("&key=AIzaSyAcYrrhBn-0XzbdgB3Fnt-x5UNEpv-pdyM");
+//
+//        Log.d("Map", "api: " + sb.toString());
+//
+//        return sb;
+//    }
+//
+//    private class PlacesTask extends AsyncTask<String, Integer, String> {
+//
+//        String data = null;
+//
+//        // Invoked by execute() method of this object
+//        @Override
+//        protected String doInBackground(String... url) {
+//            try {
+//                data = downloadUrl(url[0]);
+//            } catch (Exception e) {
+//                Log.d("Background Task", e.toString());
+//            }
+//            return data;
+//        }
+//
+//        // Executed after the complete execution of doInBackground() method
+//        @Override
+//        protected void onPostExecute(String result) {
+//            ParserTask parserTask = new ParserTask();
+//
+//            // Start parsing the Google places in JSON format
+//            // Invokes the "doInBackground()" method of the class ParserTask
+//            parserTask.execute(result);
+//        }
+//    }
+//
+//    private String downloadUrl(String strUrl) throws IOException {
+//        String data = "";
+//        InputStream iStream = null;
+//        HttpURLConnection urlConnection = null;
+//        try {
+//            URL url = new URL(strUrl);
+//
+//            // Creating an http connection to communicate with url
+//            urlConnection = (HttpURLConnection) url.openConnection();
+//
+//            // Connecting to url
+//            urlConnection.connect();
+//
+//            // Reading data from url
+//            iStream = urlConnection.getInputStream();
+//
+//            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+//
+//            StringBuffer sb = new StringBuffer();
+//
+//            String line = "";
+//            while ((line = br.readLine()) != null) {
+//                sb.append(line);
+//            }
+//
+//            data = sb.toString();
+//
+//            br.close();
+//
+//        } catch (Exception e) {
+//            Log.d("Exception while downloading url", e.toString());
+//        } finally {
+//            iStream.close();
+//            urlConnection.disconnect();
+//        }
+//        return data;
+//    }
+//
+//    private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+//
+//        JSONObject jObject;
+//
+//        // Invoked by execute() method of this object
+//        @Override
+//        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
+//
+//            List<HashMap<String, String>> places = null;
+//            Place_JSON placeJson = new Place_JSON();
+//
+//            try {
+//                jObject = new JSONObject(jsonData[0]);
+//
+//                places = placeJson.parse(jObject);
+//
+//            } catch (Exception e) {
+//                Log.d("Exception", e.toString());
+//            }
+//            return places;
+//        }
+//
+//        // Executed after the complete execution of doInBackground() method
+//        @Override
+//        protected void onPostExecute(List<HashMap<String, String>> list) {
+//
+//            Log.d("Map", "list size: " + list.size());
+//            // Clears all the existing markers;
+////            mGoogleMap.clear();
+//
+//            for (int i = 0; i < list.size(); i++) {
+//
+//                // Creating a marker
+////                MarkerOptions markerOptions = new MarkerOptions();
+//
+//                // Getting a place from the places list
+//                HashMap<String, String> hmPlace = list.get(i);
+//
+//
+//                // Getting latitude of the place
+//                double lat = Double.parseDouble(hmPlace.get("lat"));
+//
+//                // Getting longitude of the place
+//                double lng = Double.parseDouble(hmPlace.get("lng"));
+//
+//                // Getting name
+//                String name = hmPlace.get("place_name");
+//                System.out.println("Nombre Restaurante: " + name);
+//                Log.d("Map", "place: " + name);
+//
+//                // Getting vicinity
+////                String vicinity = hmPlace.get("vicinity");
+////
+////                LatLng latLng = new LatLng(lat, lng);
+////
+////                // Setting the position for the marker
+////                markerOptions.position(latLng);
+////
+////                markerOptions.title(name + " : " + vicinity);
+////
+////                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+////
+////                // Placing a marker on the touched position
+////                Marker m = mGoogleMap.addMarker(markerOptions);
+//
+//            }
+//        }
+//    }
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         //crea un conexion de salida segura para el dispositivo usando el servicio UUID
@@ -438,7 +618,7 @@ public class ControlFragment extends Fragment {
         }
     }
 
-    public void addToHistory(String ubication){
+    public void addToHistory(String ubication, String lifeguard){
         String id = FirebaseAuth.getInstance().getUid();
 
 
@@ -459,11 +639,11 @@ public class ControlFragment extends Fragment {
 
                     if(snapshot.getValue(t) != null) {
                         newHistory = snapshot.getValue(t);
-                        newHistory.add((new History(formatter.format(date), ubication)));
+                        newHistory.add((new History(formatter.format(date), ubication, lifeguard)));
                         firebaseDatabase.setValue(newHistory);
                         System.out.println("sdjadjsakld");
                     }else {
-                        histories.add(new History(formatter.format(date), ubication));
+                        histories.add(new History(formatter.format(date), ubication, lifeguard));
                         value.put("records", histories);
                         FirebaseDatabase.getInstance().getReference().child("Users").child(id).child("history").setValue(value);
                     }
