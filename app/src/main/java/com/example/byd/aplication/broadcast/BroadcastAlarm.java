@@ -77,18 +77,14 @@ public class BroadcastAlarm extends BroadcastReceiver {
         }
 
 
-//|| topPackageName.equals("com.android.dialer")
-//        com.facebook.katana
-//        com.whatsapp
-//        com.twitter.android.lite
-//        com.facebook.orca
-//        com.instagram.android
         ArrayList<String> apps = new ArrayList<>();
         apps.add("com.facebook.katana");
         apps.add("com.whatsapp");
         apps.add("com.twitter.android.lite");
         apps.add("com.facebook.orca");
         apps.add("com.instagram.android");
+        apps.add("org.thunderdog.challegram");
+        apps.add("com.android.contacts");
 
         AtomicBoolean found = new AtomicBoolean(false);
         String finalTopPackageName = topPackageName;
