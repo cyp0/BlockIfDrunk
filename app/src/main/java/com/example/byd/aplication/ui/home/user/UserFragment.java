@@ -131,19 +131,23 @@ public class UserFragment extends Fragment {
                 final String colonia = address1.getText().toString().trim();
                 final String calleYNumero = address2.getText().toString().trim();
 
-                Map<String, Object> value = new HashMap<>();
-                value.put("nombre", nombre);
-                value.put("emergency", emergencyPhone);
-                value.put("colonia", colonia);
-                value.put("calleYNumero", calleYNumero);
-                userReference.updateChildren(value);
-//                userReference.setValue(value);
-                Snackbar.make(getView(), R.string.saved , Snackbar.LENGTH_SHORT).show();
-                fragmentManager = getParentFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
-                fragmentTransaction.commit();
+                if(emergencyPhone.matches("\\d+")) {
 
+                    Map<String, Object> value = new HashMap<>();
+                    value.put("nombre", nombre);
+                    value.put("emergency", emergencyPhone);
+                    value.put("colonia", colonia);
+                    value.put("calleYNumero", calleYNumero);
+                    userReference.updateChildren(value);
+//                userReference.setValue(value);
+                    Snackbar.make(getView(), R.string.saved, Snackbar.LENGTH_SHORT).show();
+                    fragmentManager = getParentFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerOfFragments, new StartCartFragment());
+                    fragmentTransaction.commit();
+                }else {
+                    Snackbar.make(getView(), "Solo se aceptan digitos", Snackbar.LENGTH_LONG ).show();
+                }
             }
         });
 
