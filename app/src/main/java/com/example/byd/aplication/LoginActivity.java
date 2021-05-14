@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -60,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -89,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             Snackbar snackbar = Snackbar.make(findViewById(R.id.loginLayout), R.string.empty_password, Snackbar.LENGTH_LONG );
             snackbar.show();
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 //            View snackbarView= snackbar.getView();
 //            TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
 //            textView.setTextAlignment(textView.TEXT_ALIGNMENT_CENTER);
@@ -100,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
+
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -107,6 +110,8 @@ public class LoginActivity extends AppCompatActivity {
 //                        Toast.makeText(LoginActivity.this, "El correo o contraseña no existe", Toast.LENGTH_SHORT).show();
                     }
                    else if (!firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(findViewById(R.id.loginLayout).getWindowToken(), 0);
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Snackbar.make(view, R.string.mail_unveryfied, Snackbar.LENGTH_SHORT).show();
@@ -121,8 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(R.id.loginLayout).getWindowToken(), 0);
     }
 
     public void signUp(View view) {

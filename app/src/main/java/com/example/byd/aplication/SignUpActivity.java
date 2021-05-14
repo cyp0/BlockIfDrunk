@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -158,8 +159,8 @@ public class SignUpActivity extends AppCompatActivity {
             createUser(username, password, nombre, celular, colonia, calleYNumero, emergencyPhone);
 
         }
-    }
 
+    }
 
 
     private void createUser(final String username, String password, final String nombre, final String celular, final String colonia, final String calleYNumero, final String emergencyPhone) {
@@ -170,7 +171,7 @@ public class SignUpActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     button.setVisibility(View.VISIBLE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    createSnackbar( R.string.registration_error);
+                    createSnackbar(R.string.registration_error);
 //                    Toast.makeText(SignUpActivity.this, R.string.registration_error, Toast.LENGTH_SHORT).show();
                 } else {
                     Map<String, Object> value = new HashMap<>();
@@ -192,7 +193,7 @@ public class SignUpActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Snackbar.make(findViewById(R.id.signUpLayout), R.string.confirmEmail, Snackbar.LENGTH_SHORT)
-                            .addCallback(new Snackbar.Callback(){
+                            .addCallback(new Snackbar.Callback() {
                                 @Override
                                 public void onDismissed(Snackbar transientBottomBar, int event) {
                                     super.onDismissed(transientBottomBar, event);
@@ -205,8 +206,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                     user.sendEmailVerification();
                 }
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(findViewById(R.id.signUpLayout).getWindowToken(), 0);
             }
         });
     }
@@ -275,7 +278,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void createSnackbar(int title) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.signUpLayout), title, Snackbar.LENGTH_LONG);
+
+        View view = findViewById(R.id.signUpLayout);
+        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        Snackbar snackbar = Snackbar.make(view, title, Snackbar.LENGTH_LONG);
         snackbar.show();
 
     }
