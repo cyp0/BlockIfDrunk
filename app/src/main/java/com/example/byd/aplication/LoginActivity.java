@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     @Override
     protected void onStart() {
-
+//test 2
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
 //        FirebaseUser user = firebaseAuth.getCurrentUser();
